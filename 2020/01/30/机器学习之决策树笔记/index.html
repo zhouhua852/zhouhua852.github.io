@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('http://chouzz.ml').hostname,
+    root: '/',
+    scheme: 'Gemini',
+    version: '7.7.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="1 目录 2 基本算法 3 数据划分 4 信息增益 4.1 信息熵   5 Python 代码 6 参考书目  平台：windows10 64 位IDE：PycharmPython 版本：Python 3.5github 代码：源代码 my_DecisionTree.py  1 目录决策树(decision tree)是一种常见的机器学习方法，其实在生活中我们已经用到了决策树相关的知识，比如说，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="机器学习之决策树笔记">
+<meta property="og:url" content="http://chouzz.ml/2020/01/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%86%B3%E7%AD%96%E6%A0%91%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Chouzz的博客">
+<meta property="og:description" content="1 目录 2 基本算法 3 数据划分 4 信息增益 4.1 信息熵   5 Python 代码 6 参考书目  平台：windows10 64 位IDE：PycharmPython 版本：Python 3.5github 代码：源代码 my_DecisionTree.py  1 目录决策树(decision tree)是一种常见的机器学习方法，其实在生活中我们已经用到了决策树相关的知识，比如说，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDE5NTQzMDI2Mz93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDE5NTg0NTU5Mj93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNTE0NDUzMzczND93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png">
+<meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDIxMDIyNzM1ND93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png">
+<meta property="article:published_time" content="2020-01-30T14:50:13.000Z">
+<meta property="article:modified_time" content="2020-01-30T15:09:46.919Z">
+<meta property="article:author" content="Chouzz">
+<meta property="article:tag" content="决策树">
+<meta property="article:tag" content="信息熵">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDE5NTQzMDI2Mz93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png">
+
+<link rel="canonical" href="http://chouzz.ml/2020/01/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%86%B3%E7%AD%96%E6%A0%91%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>机器学习之决策树笔记 | Chouzz的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
+<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Chouzz的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">blog</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chouzz.ml/2020/01/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E5%86%B3%E7%AD%96%E6%A0%91%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+      <meta itemprop="name" content="Chouzz">
+      <meta itemprop="description" content="你只需努力，剩下的交给时间">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chouzz的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          机器学习之决策树笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-30 22:50:13 / 修改时间：23:09:46" itemprop="dateCreated datePublished" datetime="2020-01-30T22:50:13+08:00">2020-01-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><a href="#1-%e7%9b%ae%e5%bd%95">1 目录</a></li>
+<li><a href="#2-%e5%9f%ba%e6%9c%ac%e7%ae%97%e6%b3%95">2 基本算法</a></li>
+<li><a href="#3-%e6%95%b0%e6%8d%ae%e5%88%92%e5%88%86">3 数据划分</a></li>
+<li><a href="#4-%e4%bf%a1%e6%81%af%e5%a2%9e%e7%9b%8a">4 信息增益</a><ul>
+<li><a href="#41-%e4%bf%a1%e6%81%af%e7%86%b5">4.1 信息熵</a></li>
+</ul>
+</li>
+<li><a href="#5-python-%e4%bb%a3%e7%a0%81">5 Python 代码</a></li>
+<li><a href="#6-%e5%8f%82%e8%80%83%e4%b9%a6%e7%9b%ae">6 参考书目</a></li>
+</ul>
+<p><strong>平台</strong>：windows10 64 位<br><strong>IDE</strong>：Pycharm<br><strong>Python 版本</strong>：Python 3.5<br><strong>github 代码</strong>：<a href="https://github.com/zhouhua852/machine-learning/tree/master/practice" target="_blank" rel="noopener">源代码 my_DecisionTree.py</a></p>
+<hr>
+<h2 id="1-目录"><a href="#1-目录" class="headerlink" title="1 目录"></a>1 目录</h2><p><strong>决策树(decision tree)</strong>是一种常见的机器学习方法，其实在生活中我们已经用到了决策树相关的知识，比如说，女生相亲时的想法就是决策树的一种体现：</p>
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDE5NTQzMDI2Mz93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png" alt="决策树"></p>
+<p>那么对于一般女生来说，首选的就是看对方年龄，根据年龄是否超过 30 来决定见不见南方，如果超过，不见，如果没有超过就继续判断，依次类推，这就是一个决策树。那么对于上面的决策树来说，要解决的问题就是对当前男生的数据构建一颗决策树，用来对未来男生进行分类，即当要进行下一次相亲时，根据决策树来判断是否见面。一般的，一颗决策树包含一个<strong>根节点</strong>、若干个内部节点和若干个<strong>叶节点</strong>，叶节点对应决策及结果，其他节点对应于一个属性的测试。可以很轻松的理解到，上图中年龄为根节点，长相、收入、公务员为内部节点，见或不见为叶节点。</p>
+<hr>
+<h2 id="2-基本算法"><a href="#2-基本算法" class="headerlink" title="2 基本算法"></a>2 基本算法</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDE5NTg0NTU5Mj93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png" alt="决策树基本算法图"></p>
+<hr>
+<h2 id="3-数据划分"><a href="#3-数据划分" class="headerlink" title="3 数据划分"></a>3 数据划分</h2><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNTE0NDUzMzczND93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png" alt="weka数据集"><br>要想建立一个决策树，首先需要建立一个根节点，对于以上的数据集来说就是先根据那个类别来划分，即<em>‘outlook、temperature、humidity、windy’</em>中的哪个类别作为根节点，这就需要一个量来作为度量，那就是信息增益，以<em>信息增益</em>来作为划分依据的成为<strong>ID3（Iterative Dichotomiser 迭代二分器）</strong>算法，还有以<em>增益率（gain ratio）</em>来划分的称为<strong>C4.5 算法</strong>，以<em>基尼系数（Gini index）</em>划分的成为<strong>CART 决策树</strong>。</p>
+<hr>
+<h2 id="4-信息增益"><a href="#4-信息增益" class="headerlink" title="4 信息增益"></a>4 信息增益</h2><h3 id="4-1-信息熵"><a href="#4-1-信息熵" class="headerlink" title="4.1 信息熵"></a>4.1 信息熵</h3><p><strong>信息熵（information entropy）</strong>是用来度量信息源的不确定度。它的公式如下：</p>
+<p>$$<br>Ent(D)=-\sum_{k=1}^{|y|}p_k\log_2p_k \tag{1}<br>$$</p>
+<p>其中$p_k$为数据集$D$中的$k$类样本所占的比例，$Ent(D)$越小，则$D$的纯度越高。<br>对于 weka 数据集来说，该数据集共有 14 个样本，用来预测某一天是否合适外出游玩，那么显然这里就得$k=1,2$，即外出或不外出两种情况，外出所占比例为$\frac{9}{14}$，而不外出所占比例为$\frac{5}{14}$，根据以上公式根节点的信息增益可以计算出来为：<br>$$Ent(D)=-(\frac{9}{14}\log_2\frac{9}{14}+\frac{5}{14}\log_2\frac{5}{14}=0.94)$$<br>即为该<strong>数据集的信息熵</strong>。<br>###4.2 条件熵<br>条件熵的公式如下：<br>$$Ent(D)=-\sum_{v=1}^V\frac{|D^v|}{|D|}Ent(D^v)\tag{2}$$<br>以‘outlook’为例来计算在 outlook 条件下的信息熵，那么就要计算当前属性集合中的每个属性的信息增益，即<em>‘sunny’‘overcast’‘rainy’</em>这三个属性的每一个属性的信息增益，先来计算 sunny 属性的信息增益，将天气为<em>sunny</em>的保留，得到如下所示数据集：</p>
+<table>
+<thead>
+<tr>
+<th align="center">outlook</th>
+<th align="center">temperature</th>
+<th align="center">humidity</th>
+<th align="center">windy</th>
+<th align="center">play</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">sunny</td>
+<td align="center">hot</td>
+<td align="center">high</td>
+<td align="center">FALSE</td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td align="center">sunny</td>
+<td align="center">hot</td>
+<td align="center">high</td>
+<td align="center">TRUE</td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td align="center">sunny</td>
+<td align="center">mild</td>
+<td align="center">high</td>
+<td align="center">FALSE</td>
+<td align="center">no</td>
+</tr>
+<tr>
+<td align="center">sunny</td>
+<td align="center">cool</td>
+<td align="center">normal</td>
+<td align="center">FALSE</td>
+<td align="center">yes</td>
+</tr>
+<tr>
+<td align="center">sunny</td>
+<td align="center">mild</td>
+<td align="center">normal</td>
+<td align="center">TRUE</td>
+<td align="center">yes</td>
+</tr>
+</tbody></table>
+<p>这里在<em>sunny</em>的情况下，外出所占比例为$\frac{2}{5}$，不外出比例为$\frac{3}{5}$，故可以计算出此时的信息熵$Ent(D^1)$，同样的情况下可以计算出<em>overcast</em>，<em>rainy</em>的信息熵$Ent(D^2)$，$Ent(D^3)$，然后<em>sunny</em>占<em>outlook</em>比例为$\frac{5}{14}$，<em>overcast</em>和<em>raniy</em>占比为$\frac{4}{14}$,$\frac{5}{14}$,那么此时的信息增益即为：</p>
+<p>$Gain(D,outlook)=Ent(D)-(\frac{5}{14}Ent(D^1)+\frac{4}{14}Ent(D^2)+\frac{5}{14}Ent(D^3)$</p>
+<p>这就是<em>outlook</em>属性的信息增益，同样可以计算出其他属性的信息增益，将其比较大小，找出最大值作为第一次分类的特征，即作为根节点。然后依次迭代循环，计算出整个决策树。</p>
+<hr>
+<h2 id="5-Python-代码"><a href="#5-Python-代码" class="headerlink" title="5 Python 代码"></a>5 Python 代码</h2><pre class="line-numbers language-python"><code class="language-python">dataSet <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token string">'sunny'</span><span class="token punctuation">,</span> <span class="token string">'hot'</span><span class="token punctuation">,</span> <span class="token string">'high'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'no'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'sunny'</span><span class="token punctuation">,</span> <span class="token string">'hot'</span><span class="token punctuation">,</span> <span class="token string">'high'</span><span class="token punctuation">,</span> <span class="token string">'TRUE'</span><span class="token punctuation">,</span> <span class="token string">'no'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'overcast'</span><span class="token punctuation">,</span> <span class="token string">'hot'</span><span class="token punctuation">,</span> <span class="token string">'high'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'rainy'</span><span class="token punctuation">,</span> <span class="token string">'mild'</span><span class="token punctuation">,</span> <span class="token string">'high'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'rainy'</span><span class="token punctuation">,</span> <span class="token string">'cool'</span><span class="token punctuation">,</span> <span class="token string">'normal'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'rainy'</span><span class="token punctuation">,</span> <span class="token string">'cool'</span><span class="token punctuation">,</span> <span class="token string">'normal'</span><span class="token punctuation">,</span> <span class="token string">'TRUE'</span><span class="token punctuation">,</span> <span class="token string">'no'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'overcast'</span><span class="token punctuation">,</span> <span class="token string">'cool'</span><span class="token punctuation">,</span> <span class="token string">'normal'</span><span class="token punctuation">,</span> <span class="token string">'TRUE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'sunny'</span><span class="token punctuation">,</span> <span class="token string">'mild'</span><span class="token punctuation">,</span> <span class="token string">'high'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'no'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'sunny'</span><span class="token punctuation">,</span> <span class="token string">'cool'</span><span class="token punctuation">,</span> <span class="token string">'normal'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'rainy'</span><span class="token punctuation">,</span> <span class="token string">'mild'</span><span class="token punctuation">,</span> <span class="token string">'normal'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'sunny'</span><span class="token punctuation">,</span> <span class="token string">'mild'</span><span class="token punctuation">,</span> <span class="token string">'normal'</span><span class="token punctuation">,</span> <span class="token string">'TRUE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'overcast'</span><span class="token punctuation">,</span> <span class="token string">'mild'</span><span class="token punctuation">,</span> <span class="token string">'high'</span><span class="token punctuation">,</span> <span class="token string">'TRUE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'overcast'</span><span class="token punctuation">,</span> <span class="token string">'hot'</span><span class="token punctuation">,</span> <span class="token string">'normal'</span><span class="token punctuation">,</span> <span class="token string">'FALSE'</span><span class="token punctuation">,</span> <span class="token string">'yes'</span><span class="token punctuation">]</span><span class="token punctuation">,</span>
+           <span class="token punctuation">[</span><span class="token string">'rainy'</span><span class="token punctuation">,</span> <span class="token string">'mild'</span><span class="token punctuation">,</span> <span class="token string">'high'</span><span class="token punctuation">,</span> <span class="token string">'TRUE'</span><span class="token punctuation">,</span> <span class="token string">'no'</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+labels <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">'outlook'</span><span class="token punctuation">,</span><span class="token string">'temperature'</span><span class="token punctuation">,</span><span class="token string">'humidity'</span><span class="token punctuation">,</span><span class="token string">'windy'</span><span class="token punctuation">,</span><span class="token string">'play'</span><span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先创建数据集，以列表的方式存储。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">calcentropy</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    numentropy <span class="token operator">=</span> len<span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    labelCounts <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword">for</span> featVec <span class="token keyword">in</span> data<span class="token punctuation">:</span>  <span class="token comment" spellcheck="true"># 数据集的每一行</span>
+        currentlabel <span class="token operator">=</span> featVec<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>  <span class="token comment" spellcheck="true"># 每一行的最后一个类别</span>
+        <span class="token keyword">if</span> currentlabel <span class="token operator">not</span> <span class="token keyword">in</span> labelCounts<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>  <span class="token comment" spellcheck="true"># 如果当前标签不在字典的关键字中</span>
+            labelCounts<span class="token punctuation">[</span>currentlabel<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment" spellcheck="true"># 让当前标签为0，实际上是增加字典的关键字</span>
+        labelCounts<span class="token punctuation">[</span>currentlabel<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>  <span class="token comment" spellcheck="true"># 如果在字典里，就增加1，实际上是统计每个标签出现的次数</span>
+    shannonEnt <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment" spellcheck="true"># 香农熵，即最后的返回结果</span>
+    <span class="token keyword">for</span> key <span class="token keyword">in</span> labelCounts<span class="token punctuation">:</span>     <span class="token comment" spellcheck="true"># 遍历labelCount中的每一个关键词</span>
+        prob <span class="token operator">=</span> labelCounts<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">/</span> numentropy    <span class="token comment" spellcheck="true"># 用关键词的个数除以总个数得到概率</span>
+        shannonEnt <span class="token operator">-=</span> prob <span class="token operator">*</span> np<span class="token punctuation">.</span>log2<span class="token punctuation">(</span>prob<span class="token punctuation">)</span>      <span class="token comment" spellcheck="true"># 求信息熵，即香农熵</span>
+<span class="token keyword">return</span> shannonEnt<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>然后创建一个函数用来计算信息熵，这个函数有个特点就是用 for 循环和字典来记录一列数据中每个属性出现的次数，然后通过出现的次数除以总次数来计算概率，最后求得信息熵。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">splitData</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> axis<span class="token punctuation">,</span> value<span class="token punctuation">)</span><span class="token punctuation">:</span>       <span class="token comment" spellcheck="true"># 划分数据集</span>
+    retData <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword">for</span> featVec <span class="token keyword">in</span> data<span class="token punctuation">:</span>    <span class="token comment" spellcheck="true"># 用featVec表示每一个样本</span>
+        <span class="token keyword">if</span> featVec<span class="token punctuation">[</span>axis<span class="token punctuation">]</span> <span class="token operator">==</span> value<span class="token punctuation">:</span>      <span class="token comment" spellcheck="true"># 如果value的值等于里面样本的特征</span>
+            reduceFeat <span class="token operator">=</span> featVec<span class="token punctuation">[</span><span class="token punctuation">:</span>axis<span class="token punctuation">]</span>     <span class="token comment" spellcheck="true"># 用reduceFeat补齐这个特征之前的所有特征</span>
+            reduceFeat<span class="token punctuation">.</span>extend<span class="token punctuation">(</span>featVec<span class="token punctuation">[</span>axis <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">:</span><span class="token punctuation">]</span><span class="token punctuation">)</span>       <span class="token comment" spellcheck="true"># 补齐这个特征之后的所有特征</span>
+            retData<span class="token punctuation">.</span>append<span class="token punctuation">(</span>reduceFeat<span class="token punctuation">)</span>      <span class="token comment" spellcheck="true"># 用retData来表示去掉这个特征的最终特征</span>
+<span class="token keyword">return</span> retData<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>该函数为划分数据集函数，这里面用 reduceFeat 来存储去掉某个特征之后的数据集，然后返回该数据集用以迭代循环。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">chooseBestFeatSplit</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    numFeats <span class="token operator">=</span> len<span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>     <span class="token comment" spellcheck="true"># 特征的数目，减去最后一个特征</span>
+    bestGain <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span>numFeats<span class="token punctuation">)</span><span class="token punctuation">:</span>       <span class="token comment" spellcheck="true"># i：0-3，在本例中只有4个特征</span>
+        featlist <span class="token operator">=</span> <span class="token punctuation">[</span>example<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token keyword">for</span> example <span class="token keyword">in</span> data<span class="token punctuation">]</span>     <span class="token comment" spellcheck="true"># 列表解析取出data中的一列数据</span>
+        uniqueVals <span class="token operator">=</span> set<span class="token punctuation">(</span>featlist<span class="token punctuation">)</span>          <span class="token comment" spellcheck="true"># 转变为集合</span>
+        newEntropy <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword">for</span> value <span class="token keyword">in</span> uniqueVals<span class="token punctuation">:</span>            <span class="token comment" spellcheck="true"># 遍历每个特征内所有集合的元素，对于i=0是，uniqueVals={summy,rainy,overcast}</span>
+            subData <span class="token operator">=</span> splitData<span class="token punctuation">(</span>data<span class="token punctuation">,</span> i<span class="token punctuation">,</span> value<span class="token punctuation">)</span>      <span class="token comment" spellcheck="true"># 对第一个特征中rainy划分数据集</span>
+            prob <span class="token operator">=</span> len<span class="token punctuation">(</span>subData<span class="token punctuation">)</span> <span class="token operator">/</span> float<span class="token punctuation">(</span>len<span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            newEntropy <span class="token operator">+=</span> prob <span class="token operator">*</span> calcentropy<span class="token punctuation">(</span>subData<span class="token punctuation">)</span>   <span class="token comment" spellcheck="true"># 求出条件熵</span>
+        infoGain <span class="token operator">=</span> baseGain <span class="token operator">-</span> newEntropy                <span class="token comment" spellcheck="true"># 计算信息增益</span>
+        <span class="token keyword">if</span> infoGain <span class="token operator">></span> bestGain<span class="token punctuation">:</span>                         <span class="token comment" spellcheck="true"># 取出最大的信息增益</span>
+            bestGain <span class="token operator">=</span> infoGain
+            bestfeat <span class="token operator">=</span> i
+<span class="token keyword">return</span> bestfeat                                     <span class="token comment" spellcheck="true"># 返回当信息增益最大是的特征类别</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>该函数是选择最佳的特征来分类，是整个步骤中最重要的一步，这里它用了一个列表解析取出数据集中某一列数据，然后转变为集合，通过比较每个类别的信息增益来返回最佳的特征</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">creatTree</span><span class="token punctuation">(</span>data<span class="token punctuation">,</span> labels<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    classList <span class="token operator">=</span> <span class="token punctuation">[</span>example<span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span> <span class="token keyword">for</span> example <span class="token keyword">in</span> data<span class="token punctuation">]</span>       <span class="token comment" spellcheck="true"># 遍历数据集最后一列</span>
+    <span class="token keyword">if</span> classList<span class="token punctuation">.</span>count<span class="token punctuation">(</span>classList<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> len<span class="token punctuation">(</span>classList<span class="token punctuation">)</span><span class="token punctuation">:</span>     <span class="token comment" spellcheck="true"># 类别中的概率是否确定，即概率为1时，提前到达叶节点</span>
+        <span class="token keyword">return</span> classList<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>                             <span class="token comment" spellcheck="true"># 返回该类别</span>
+    <span class="token keyword">if</span> len<span class="token punctuation">(</span>data<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>       <span class="token comment" spellcheck="true"># 是否只剩下一个类别，到达最终的叶节点</span>
+        <span class="token keyword">return</span> majorityCnt<span class="token punctuation">(</span>classList<span class="token punctuation">)</span>
+    bestFeature <span class="token operator">=</span> chooseBestFeatSplit<span class="token punctuation">(</span>data<span class="token punctuation">)</span>         <span class="token comment" spellcheck="true"># 选择最好的特征</span>
+    bestFeatureLabel <span class="token operator">=</span> labels<span class="token punctuation">[</span>bestFeature<span class="token punctuation">]</span>          <span class="token comment" spellcheck="true"># 最好的特征表现</span>
+    myTree <span class="token operator">=</span> <span class="token punctuation">{</span>bestFeatureLabel<span class="token punctuation">:</span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">}</span>                  <span class="token comment" spellcheck="true"># 创建树</span>
+    <span class="token keyword">del</span><span class="token punctuation">(</span>labels<span class="token punctuation">[</span>bestFeature<span class="token punctuation">]</span><span class="token punctuation">)</span>                        <span class="token comment" spellcheck="true"># 删除已经计算过的特征</span>
+    featValues <span class="token operator">=</span> <span class="token punctuation">[</span>example<span class="token punctuation">[</span>bestFeature<span class="token punctuation">]</span> <span class="token keyword">for</span> example <span class="token keyword">in</span> data<span class="token punctuation">]</span>     <span class="token comment" spellcheck="true"># 遍历根据最佳特征分割完成后的类别中的属性</span>
+    uniqueVals <span class="token operator">=</span> set<span class="token punctuation">(</span>featValues<span class="token punctuation">)</span>
+    <span class="token keyword">for</span> value <span class="token keyword">in</span> uniqueVals<span class="token punctuation">:</span>
+        sublabels <span class="token operator">=</span> labels<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">]</span>
+        myTree<span class="token punctuation">[</span>bestFeatureLabel<span class="token punctuation">]</span><span class="token punctuation">[</span>value<span class="token punctuation">]</span> <span class="token operator">=</span> creatTree<span class="token punctuation">(</span>splitData<span class="token punctuation">(</span>data<span class="token punctuation">,</span>bestFeature<span class="token punctuation">,</span>value<span class="token punctuation">)</span><span class="token punctuation">,</span>sublabels<span class="token punctuation">)</span>
+<span class="token keyword">return</span> myTree<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>该函数即为上图中决策树学习的基本算法，可以看到，它以 2 个条件做为迭代终止的条件，第一个是样本在类别中取值相同，这就说明已经到达了叶子节点，做出了最终决策，该阶段任务完成。第二个是只剩下一个类别时，迭代终止，到达最终的叶子节点。<br>以上程序为树的核心程序，剩下的用 matplot 绘图工具将生成的树绘出即可，程序如下</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span><span class="token punctuation">:</span>
+    baseGain <span class="token operator">=</span> calcentropy<span class="token punctuation">(</span>dataSet<span class="token punctuation">)</span>
+    myTree <span class="token operator">=</span> creatTree<span class="token punctuation">(</span>dataSet<span class="token punctuation">,</span>labels<span class="token punctuation">)</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>myTree<span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>最后运行结果出的决策树如下：<br><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDIxMDIyNzM1ND93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png" alt="最终决策树图"></p>
+<hr>
+<h2 id="6-参考书目"><a href="#6-参考书目" class="headerlink" title="6 参考书目"></a>6 参考书目</h2><ul>
+<li>机器学习 周志华</li>
+<li>机器学习实战</li>
+<li><a href="http://blog.csdn.net/c406495762/article/details/75663451" target="_blank" rel="noopener">Python3《机器学习实战》学习笔记（二）：决策树基础篇之让我们从相亲说起</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%86%B3%E7%AD%96%E6%A0%91/" rel="tag"># 决策树</a>
+              <a href="/tags/%E4%BF%A1%E6%81%AF%E7%86%B5/" rel="tag"># 信息熵</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/01/30/turtlebot3%EF%BC%88%E4%B8%80%EF%BC%89%E4%B9%8BUbuntu16-04%E4%B8%8ArealsenceR200%E7%9A%84%E4%BD%BF%E7%94%A8/" rel="prev" title="turtlebot3（一）之Ubuntu16.04上realsenceR200的使用">
+      <i class="fa fa-chevron-left"></i> turtlebot3（一）之Ubuntu16.04上realsenceR200的使用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/01/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AC%94%E8%AE%B0/" rel="next" title="机器学习之线性回归笔记">
+      机器学习之线性回归笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-目录"><span class="nav-number">1.</span> <span class="nav-text">1 目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-基本算法"><span class="nav-number">2.</span> <span class="nav-text">2 基本算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-数据划分"><span class="nav-number">3.</span> <span class="nav-text">3 数据划分</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-信息增益"><span class="nav-number">4.</span> <span class="nav-text">4 信息增益</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1-信息熵"><span class="nav-number">4.1.</span> <span class="nav-text">4.1 信息熵</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-Python-代码"><span class="nav-number">5.</span> <span class="nav-text">5 Python 代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-参考书目"><span class="nav-number">6.</span> <span class="nav-text">6 参考书目</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Chouzz"
+      src="/images/myavatar.jpg">
+  <p class="site-author-name" itemprop="name">Chouzz</p>
+  <div class="site-description" itemprop="description">你只需努力，剩下的交给时间</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zhouhua852" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zhouhua852" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zhouhua25@qq.com" title="E-Mail → mailto:zhouhua25@qq.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Chouzz</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v4.2.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">主题 – <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> v7.7.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+<script type="text/x-mathjax-config">
+    MathJax.Ajax.config.path['mhchem'] = '//cdn.jsdelivr.net/npm/mathjax-mhchem@3';
+
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+      processEscapes: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        extensions: ['[mhchem]/mhchem.js'],
+      equationNumbers: {
+        autoNumber: 'AMS'
+      }
+    }
+  });
+
+  MathJax.Hub.Register.StartupHook('TeX Jax Ready', function() {
+    MathJax.InputJax.TeX.prefilterHooks.Add(function(data) {
+      if (data.display) {
+        var next = data.script.nextSibling;
+        while (next && next.nodeName.toLowerCase() === '#text') {
+          next = next.nextSibling;
+        }
+        if (next && next.nodeName.toLowerCase() === 'br') {
+          next.parentNode.removeChild(next);
+        }
+      }
+    });
+  });
+
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for (i = 0; i < all.length; i += 1) {
+      element = document.getElementById(all[i].inputID + '-Frame').parentNode;
+      if (element.nodeName.toLowerCase() == 'li') {
+        element = element.parentNode;
+      }
+      element.classList.add('has-jax');
+    }
+  });
+</script>
+<script>
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mathjax@2/MathJax.js?config=TeX-AMS-MML_HTMLorMML', () => {
+    MathJax.Hub.Typeset();
+  }, window.MathJax);
+</script>
+
+    
+
+  
+
+</body>
+</html>
