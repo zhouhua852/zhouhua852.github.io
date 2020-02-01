@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 4.2.0">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/myavatar-apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/myavatar32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/myavatar16x16.png">
-  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <link rel="mask-icon" href="/images/myavatar-logo.svg" color="#222">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -140,17 +140,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">15</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">16</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">17</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">19</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">4</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">5</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -181,6 +181,207 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chouzz.ml/2020/01/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+      <meta itemprop="name" content="Chouzz">
+      <meta itemprop="description" content="你只需努力，剩下的交给时间">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chouzz的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/30/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%B9%8B%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">机器学习之线性回归笔记</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-30 23:17:53 / 修改时间：23:20:14" itemprop="dateCreated datePublished" datetime="2020-01-30T23:17:53+08:00">2020-01-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/" itemprop="url" rel="index">
+                    <span itemprop="name">机器学习</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>平台</strong>：windows10 64位<br><strong>IDE</strong>：Pycharm<br><strong>Python版本</strong>：Python3.5<br><strong>github代码</strong>：<a href="https://github.com/zhouhua852/machine-learning/tree/master/my_lineRegression" target="_blank" rel="noopener">源代码</a></p>
+<hr>
+<h1 id="1-目录"><a href="#1-目录" class="headerlink" title="1 目录"></a>1 目录</h1><ul>
+<li><a href="#1-%e7%9b%ae%e5%bd%95">1 目录</a></li>
+<li><a href="#2-%e5%9b%9e%e5%bd%92%e7%9a%84%e7%90%86%e8%a7%a3">2 回归的理解</a></li>
+<li><a href="#3-%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92">3 线性回归</a></li>
+<li><a href="#4-%e4%bd%bf%e7%94%a8%e6%9c%80%e5%a4%a7%e4%bc%bc%e7%84%b6%e8%a7%a3%e9%87%8a%e6%9c%80%e5%b0%8f%e4%ba%8c%e4%b9%98">4 使用最大似然解释最小二乘</a><ul>
+<li><a href="#41-%e5%9f%ba%e6%9c%ac%e5%bd%a2%e5%bc%8f">4.1 基本形式</a></li>
+<li><a href="#42-%e9%ab%98%e6%96%af%e7%9a%84%e5%af%b9%e6%95%b0%e4%bc%bc%e7%84%b6%e4%b8%8e%e6%9c%80%e5%b0%8f%e4%ba%8c%e4%b9%98">4.2 高斯的对数似然与最小二乘</a></li>
+<li><a href="#43-%e5%90%91%e9%87%8f%e8%a1%a8%e7%a4%ba%e4%b8%8b%e7%9a%84%e6%b1%82%e8%a7%a3">4.3 向量表示下的求解</a></li>
+<li><a href="#44-l2%e6%ad%a3%e5%88%99%e5%8c%96mathsemanticsmrowmi-mathvariant%22normal%22%e2%84%93mimn2mnmo%e2%88%92mominmimiomimirmimimmimrowannotation-encoding%22applicationx-tex%22ell2-normannotationsemanticsmath%e2%84%932%e2%88%92norm">4.4 L2正则化($\ell2-norm$)</a></li>
+<li><a href="#45-l1%e6%ad%a3%e5%88%99%e5%8c%96mathsemanticsmrowmi-mathvariant%22normal%22%e2%84%93mimn1mnmo%e2%88%92mominmimiomimirmimimmimrowannotation-encoding%22applicationx-tex%22ell1-normannotationsemanticsmath%e2%84%931%e2%88%92norm">4.5 L1正则化($\ell1-norm$)</a></li>
+<li><a href="#46-lastic-net">4.6 lastic Net</a></li>
+<li><a href="#47-l1%e5%92%8cl2%e6%ad%a3%e5%88%99%e7%9a%84%e5%8c%ba%e5%88%ab">4.7 L1和L2正则的区别</a></li>
+</ul>
+</li>
+<li><a href="#5-%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e6%b3%95">5 梯度下降法</a></li>
+<li><a href="#6-%e7%a8%8b%e5%ba%8f%e5%88%86%e6%9e%90">6 程序分析</a></li>
+<li><a href="#7-%e5%88%86%e6%9e%90sklearn%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92%e7%9a%84%e5%ae%98%e6%96%b9%e4%be%8b%e7%a8%8b">7 分析sklearn线性回归的官方例程</a><ul>
+<li><a href="#71-%e5%ae%98%e6%96%b9%e4%be%8b%e7%a8%8b%e5%88%86%e6%9e%90">7.1 官方例程分析</a></li>
+<li><a href="#72-%e4%bd%bf%e7%94%a8sklearn%e6%96%b9%e6%b3%95%e8%ae%ad%e7%bb%83%e8%87%aa%e5%b7%b1%e7%94%9f%e6%88%90%e7%9a%84%e6%95%b0%e6%8d%ae">7.2 使用sklearn方法训练自己生成的数据</a></li>
+</ul>
+</li>
+<li><a href="#8-%e5%8f%82%e8%80%83%e4%b9%a6%e7%9b%ae">8 参考书目</a></li>
+</ul>
+<h1 id="2-回归的理解"><a href="#2-回归的理解" class="headerlink" title="2 回归的理解"></a>2 回归的理解</h1><p>回归是由高尔顿最先在生物遗传上提出的，在线性回归中，与其说其为回归，不如说线性拟合更合适，而为了纪念高尔顿还是保留了回归这一名词<br>而<strong>对数几率回归（Logistic regression）</strong>解决的却是一个<strong>分类</strong>问题，其实就是2分类，如果需要解决多分类那么就做多次2分类或直接用<strong>Softmax回归</strong>。</p>
+<h1 id="3-线性回归"><a href="#3-线性回归" class="headerlink" title="3 线性回归"></a>3 线性回归</h1><p>线性回归试图建立的一个线性模型以尽可能准确的预测输出标记。考虑最简单的模型，给定若干对$(x,y)$的数据，将其在坐标轴上表示如下：</p>
+<center>![散点图](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDIyMjYxOTQ1Mj93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png)
+
+<p>线性回归就是要寻找一条直线来使得这些所有的点都尽量符合直线上的点，其中尽量符合指的就是使损失最小，在这里以点到直线的距离的平方来作为‘损失’，使用线性回归可以来预测数据，这在机器学习里面是一个非常重要的概念——预测，不管是什么模型，最后做出来都是需要用来预测数据，来判断这个模型到底实不实用，线性回归就是这些模型中最简单的一种模型。</p>
+<center>![线性回归图](https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDIyMjY1MDM4Mj93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png)
+
+<h1 id="4-使用最大似然解释最小二乘"><a href="#4-使用最大似然解释最小二乘" class="headerlink" title="4 使用最大似然解释最小二乘"></a>4 使用最大似然解释最小二乘</h1><h2 id="4-1-基本形式"><a href="#4-1-基本形式" class="headerlink" title="4.1 基本形式"></a>4.1 基本形式</h2><p>首先对于线性回归，所求得就是一条直线，设其方程为：<br>$$y^{(i)}=\theta^Tx^{(i)}+\varepsilon^{(i)}$$<br>其中$\theta$和$\varepsilon$为这条直线的斜率和截距，$x,y$分别为图上的一系列散点，用极大似然法估计时，我们认为$\varepsilon$符合正太分布，且期望为0，那么根据大学的知识可以得到$\varepsilon$的概率为：<br>$$p(\varepsilon^{(i)})=\frac{1}{s\sqrt{2\pi\sigma}}exp(-\frac{(\varepsilon^{(i)})^2}{2\sigma^2})$$<br>把直线方程移项带入上式得到在$\theta$参数下，已知$x$的情况下$y$的概率密度函数为：<br>$$p(y^{(i)}|x^{(i)};\theta)=\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})$$<br>这里的概率密度函数为条件概率密度函数，直接求解是无法解出来的，假设样本之间是独立的，那么就得到：</p>
+<p>\begin{aligned}<br>L(\theta)&amp;=\coprod_{i=1}^m p(y^{(i)}|x^{(i)};\theta)\&amp;=\coprod_{i=1}^m\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})<br>\end{aligned}</p>
+<h2 id="4-2-高斯的对数似然与最小二乘"><a href="#4-2-高斯的对数似然与最小二乘" class="headerlink" title="4.2 高斯的对数似然与最小二乘"></a>4.2 高斯的对数似然与最小二乘</h2><p>这里用的是对数似然，即需要对$L(\theta)$取对数，则可以化简得到如下方程：<br>\begin{aligned}<br>\ell(\theta)&amp;=\log{L(\theta)}\&amp;=\log{\coprod_{i=1}^m\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})}\&amp;=\sum_{i=1}^m \log{\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})}\&amp;=m\log{\frac{1}{\sqrt{2\pi\sigma}}}-\frac{1}{\sigma^2}\cdot\frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})<br>\end{aligned}<br>现在，需要求$L(\theta)$为最大值时$\theta$的值，前面一项为常数，可以省略掉，只保留后方一项得到函数：<br>$$J(\theta)=\frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})$$<br>即求$J(\theta)$的最小值，括号里的一项就是预测值和实际值之间的差，这个就成为目标函数或成为损失函数，这其实就是最小二乘估计，整个推导过程其实就是利用高斯分布推导最小二乘。</p>
+<h2 id="4-3-向量表示下的求解"><a href="#4-3-向量表示下的求解" class="headerlink" title="4.3 向量表示下的求解"></a>4.3 向量表示下的求解</h2><p>设有$M$个$N$维样本组成矩阵$X$，即$X$的行对应每个样本，$X$的列对应样本的维度，<strong>目标函数</strong>就可以表示为：<br>$$J(\theta)=\frac{1}{2}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})^2=\frac{1}{2}(X\theta-y)^T(X\theta-y)$$<br>即现在要求出$J(\theta)$最小值时$\theta$的值，对目标函数求导，令其等于$0$，求出$\theta$的值。</p>
+<p>\begin{aligned}<br>\nabla_\theta J(\theta) &amp;= \frac{1}{2}\sum_{i=1}^m(h_\theta x^{(i)}-y^{(i)})^2\&amp;=\nabla_\theta \left{ \frac{1}{2} (\theta^TX^TX\theta-]theta^TX^Ty-y^TX\theta+h^Ty)\right}\&amp;=\frac{1}{2}(2X^TX\theta-X^Ty-(y^TX)^T)\&amp;=X^TX\theta-x^Ty<br>\end{aligned}<br>得到最后的结果如下：<br>$$\theta=(X^TX)^{-1}X^Ty$$</p>
+<h2 id="4-4-L2正则化-ell2-norm"><a href="#4-4-L2正则化-ell2-norm" class="headerlink" title="4.4 L2正则化($\ell2-norm$)"></a>4.4 L2正则化($\ell2-norm$)</h2><p>而在现实中当特征比样本点更多时，矩阵$X$不是满秩矩阵， $X^TX$不一定可逆，通常引入<strong>正则化(egularization)</strong>项，其实质是为了<strong>防止过拟合</strong>,<br>$$ \frac{1}{2}\sum_{i=1}^m(h_\theta x^{(i)}-y^{(i)})^2+\lambda\sum_{j=1}^n\theta_j ^2$$<br>称为<strong>$L2$正则($\ell2-norm$)</strong>，那么加了$L2$正则的最小二乘称为<strong>岭回归</strong>，求解可得$\theta$为：<br>$$\theta=(X^TX+\lambda I)^{-1}X^Ty$$</p>
+<h2 id="4-5-L1正则化-ell1-norm"><a href="#4-5-L1正则化-ell1-norm" class="headerlink" title="4.5 L1正则化($\ell1-norm$)"></a>4.5 L1正则化($\ell1-norm$)</h2><p>既然有L2正则化，那么也必然有<strong>L1正则化($\ell1-norm$)</strong>，将目标函数正则项中$\theta$的平方替换为$\theta$的绝对值，那么就叫L1正则，即<strong>LASSO</strong>。<br>$$ \frac{1}{2}\sum_{i=1}^m(h_\theta x^{(i)}-y^{(i)})^2+\lambda\sum_{j=1}^n|\theta_j| $$</p>
+<h2 id="4-6-lastic-Net"><a href="#4-6-lastic-Net" class="headerlink" title="4.6 lastic Net"></a>4.6 lastic Net</h2><p>结合l1和l2正则，即为Elastic Net:<br>$$ \frac{1}{2}\sum_{i=1}^m(h_\theta x^{(i)}-y^{(i)})^2+\lambda(\rho\cdot\sum_{j=1}^n|\theta_j| +(1-\rho)\cdot\sum_{j=1}^n\theta_j ^2)$$</p>
+<h2 id="4-7-L1和L2正则的区别"><a href="#4-7-L1和L2正则的区别" class="headerlink" title="4.7 L1和L2正则的区别"></a>4.7 L1和L2正则的区别</h2><p>使用绝对值取代平方和，在$\lambda$最够大时，高阶的情况下高阶项的系数会缩减到0</p>
+<h1 id="5-梯度下降法"><a href="#5-梯度下降法" class="headerlink" title="5 梯度下降法"></a>5 梯度下降法</h1><p>求出目标函数了，就要根据目标函数来求的这条直线，这里常用的一种方法就是梯度下降法，梯度下降法的公式如下：<br>$$\theta=\theta-\alpha\cdot\frac{\partial J(\theta)}{\partial\theta}$$<br>其中$\alpha$表示学习率，$\theta$为参数，具体做法就是初始化$\theta$，然后沿着负梯度方向迭代，不断更新$\theta$使就$J(\theta)$最小。</p>
+<h1 id="6-程序分析"><a href="#6-程序分析" class="headerlink" title="6 程序分析"></a>6 程序分析</h1><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
+
+np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>seed<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+x <span class="token operator">=</span> np<span class="token punctuation">.</span>linspace<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">11</span><span class="token punctuation">)</span> <span class="token operator">+</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randn<span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span>
+x <span class="token operator">=</span> np<span class="token punctuation">.</span>sort<span class="token punctuation">(</span>x<span class="token punctuation">)</span>
+y <span class="token operator">=</span> x <span class="token operator">**</span> <span class="token number">2</span> <span class="token operator">+</span> <span class="token number">2</span> <span class="token operator">+</span> np<span class="token punctuation">.</span>random<span class="token punctuation">.</span>randn<span class="token punctuation">(</span><span class="token number">11</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>首先生成随机点x，y，随机生成11个点，这11个点是根据y=x2+2这条曲线上生成的。</p>
+<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">def</span> <span class="token function">optimizer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    w <span class="token operator">=</span> <span class="token number">0</span>
+    b <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword">for</span> i <span class="token keyword">in</span> range<span class="token punctuation">(</span><span class="token number">1000</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        w<span class="token punctuation">,</span> b <span class="token operator">=</span> compute_gradient<span class="token punctuation">(</span>w<span class="token punctuation">,</span> b<span class="token punctuation">,</span> <span class="token number">0.02</span><span class="token punctuation">)</span>
+        <span class="token comment" spellcheck="true"># if i % 50 == 0:</span>
+            <span class="token comment" spellcheck="true"># plt.plot(x, x * w + b, 'b-')</span>
+            <span class="token comment" spellcheck="true"># plt.pause(0.5)</span>
+    y_pre <span class="token operator">=</span> x <span class="token operator">*</span> w <span class="token operator">+</span> b
+    <span class="token keyword">print</span><span class="token punctuation">(</span>w<span class="token punctuation">,</span> b<span class="token punctuation">)</span>
+    <span class="token keyword">return</span> y_pre<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>这个函数是执行梯度下降法1000次，以此来找到最优的w，b，每执行一次，都将新的w，b带入梯度中来求，最后求得最终的w，b，然后可以得到最终拟合的直线，即y_pre.</p>
+<pre class="line-numbers language-pyhon"><code class="language-pyhon">def compute_gradient(m_current, b_current, learning_rate):
+    N = len(x)  # 数据的长度
+    m_gradient = 0.0
+    b_gradient = 0.0
+    for i in range(N):
+        m_gradient += -(2 / N) * x[i] * (y[i] - (m_current * x[i] + b_current))
+        b_gradient += -(2 / N) * (y[i] - (m_current * x[i] + b_current))
+    new_m = m_current - (learning_rate * m_gradient)
+    new_b = b_current - (learning_rate * b_gradient)
+    return new_m, new_b<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在compute_gradient函数中，主要是返回每次计算的$w，b$以及<br>$\frac{\partial J(\theta)}{\partial\theta}$，上面函数中for循环就是所求的偏导数，返回值是计算一次梯度下降时的$w，b$。</p>
+<pre class="line-numbers language-python"><code class="language-python">plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x<span class="token punctuation">,</span> y<span class="token punctuation">,</span> <span class="token string">'ro'</span><span class="token punctuation">)</span>
+plt<span class="token punctuation">.</span>plot<span class="token punctuation">(</span>x<span class="token punctuation">,</span> optimizer<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token string">'b-'</span><span class="token punctuation">)</span>
+<span class="token comment" spellcheck="true">#optimizer()</span>
+plt<span class="token punctuation">.</span>show<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>在多次计算后，再将散点图最终求得的直线图画出来即可。</p>
+<h1 id="7-分析sklearn线性回归的官方例程"><a href="#7-分析sklearn线性回归的官方例程" class="headerlink" title="7 分析sklearn线性回归的官方例程"></a>7 分析sklearn线性回归的官方例程</h1><p>官方网站为：<a href="http://scikit-learn.org/stable/auto_examples/linear_model/plot_ols.html#sphx-glr-auto-examples-linear-model-plot-ols-py" target="_blank" rel="noopener">Linear Regression Example</a></p>
+<h2 id="7-1-官方例程分析"><a href="#7-1-官方例程分析" class="headerlink" title="7.1 官方例程分析"></a>7.1 官方例程分析</h2><pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> matplotlib<span class="token punctuation">.</span>pyplot <span class="token keyword">as</span> plt
+<span class="token keyword">import</span> numpy <span class="token keyword">as</span> np
+<span class="token keyword">from</span> sklearn <span class="token keyword">import</span> datasets<span class="token punctuation">,</span> linear_model
+<span class="token keyword">from</span> sklearn<span class="token punctuation">.</span>metrics <span class="token keyword">import</span> mean_squared_error<span class="token punctuation">,</span> r2_score<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span></span></code></pre>
+<p>导入库</p>
+<pre><code>diabetes = datasets.load_diabetes()     # 导出数据集</code></pre><p>导出数据集，其中diabetes是<code>sklearn.datasets.base.Bunch</code>类型，该类型和Python内置的字典类型相似</p>
+<pre><code>diabetes_X = diabetes.data[:, np.newaxis, 2]        # 分割数据集</code></pre><p>这个用法为sklearn中的用法，<code>datasets.data</code>为<code>dataset</code>对象中的<code>data</code>属性，而<code>data</code>属性对应的数据为一个二维数组，故<code>[:, np.newaxis,2]</code>为取data中的所有行，增加一个维度，第三列,故<code>diabetes_X</code>为一个二维数组,如下：</p>
+<pre><code>{&#39;data&#39;: array([[ 0.03807591,  0.05068012,  0.06169621, ..., -0.00259226,
+          0.01990842, -0.01764613],
+        [-0.00188202, -0.04464164, -0.05147406, ..., -0.03949338,
+         -0.06832974, -0.09220405],
+        [ 0.08529891,  0.05068012,  0.04445121, ..., -0.00259226,
+          0.00286377, -0.02593034],
+        ..., 
+        [ 0.04170844,  0.05068012, -0.01590626, ..., -0.01107952,
+         -0.04687948,  0.01549073],
+        [-0.04547248, -0.04464164,  0.03906215, ...,  0.02655962,
+          0.04452837, -0.02593034],
+        [-0.04547248, -0.04464164, -0.0730303 , ..., -0.03949338,
+         -0.00421986,  0.00306441]]),</code></pre><p>上面得到的diabetes_X的shape为(442, 1)，再将其分为训练集和测试集</p>
+<pre><code>diabetes_X_train = diabetes_X[:-20]
+diabetes_X_test = diabetes_X[-20:]</code></pre><p>该句中前0个到倒数第20个分为训练集，倒数20个数据为测试集。</p>
+<pre><code>diabetes_y_train = diabetes.target[:-20]
+diabetes_y_test = diabetes.target[-20:]</code></pre><p>同理，将diabetes中的target属性也这样划分。</p>
+<pre><code>regr = linear_model.LinearRegression()
+regr.fit(diabetes_X_train, diabetes_y_train)
+diabetes_y_pred = regr.predict(diabetes_X_test)</code></pre><p>然后创建一个线性模型的对象，并用训练集来fit，最后得到预测的数据</p>
+<pre><code># The coefficients
+print(&#39;Coefficients: \n&#39;, regr.coef_)
+# The mean squared error
+print(&quot;Mean squared error: %.2f&quot;
+      % mean_squared_error(diabetes_y_test, diabetes_y_pred))
+# Explained variance score: 1 is perfect prediction
+print(&#39;Variance score: %.2f&#39; % r2_score(diabetes_y_test, diabetes_y_pred))</code></pre><p>打印出相关系数和均方误差以及差异分数<br>这里相关系数为$R$，回归系数为$R^2$,而回归系数<br>$$R^2=\frac{SSReg}{SST}=1-\frac{SSE}{SST}$$<br>其中$SSReg$为回归平方和（sum of squares for regression），也叫做模型平方和，，SSE为残差平方（sum of squares for error），SST为总平方和（SSReg+SSE），其中各公式如下：<br>$$SST=\sum_{i=1}^n(y_i-\bar{y})^2$$<br>$$SSReg=\sum_{i}(\hat{y_i}-\bar{y})^2$$<br>$$SSE=\sum_{i}(y_i-\hat{y})^2$$<br>故在本次实验中相关系数$R$即为：<br>$$R=\frac{\sum_{i=1}^n(x_i-\bar{x})(y_i-\bar{y})}{\sqrt{\sum_{i=1}^n(x_i-\bar{x})^2\sum_{i=1}^n(y_i-\bar{y})^2}}$$<br>$\hat{y_i}$表示的为回归直线中$y$的值，$\bar{y}$表示$y$的平均值.最后结果如下：</p>
+<center>![官方例程结果](https://img-blog.csdn.net/20180328112825821?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxOTA0MzA1MTU5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
+## 7.2 使用sklearn方法训练自己生成的数据
+代码如下：
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import datasets, linear_model
+from sklearn.metrics import mean_squared_error, r2_score
+
+<p>np.random.seed(0)<br>x = np.linspace(0, 6, 11) + np.random.randn(11)<br>x = np.sort(x)<br>y = x ** 2 + 2 + np.random.randn(11)<br>x=x[:,np.newaxis]<br>print(x)<br>regr = linear_model.LinearRegression()<br>regr.fit(x,y)<br>y_pre = regr.predict(x)</p>
+<p>plt.scatter(x,y)<br>plt.plot(x,y_pre)<br>plt.show()</p>
+<p>```<br>预测结果：<br><img src="https://img-blog.csdn.net/20180328113152895?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxOTA0MzA1MTU5/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" alt="sklaern预测生成数据结果"><br>可以看到，使用sklearn的预测结果和使用梯度下降法的线性回归结果是一模一样的。</p>
+<h1 id="8-参考书目"><a href="#8-参考书目" class="headerlink" title="8 参考书目"></a>8 参考书目</h1><ul>
+<li>机器学习实战 </li>
+<li>机器学习 周志华</li>
+<li><a href="http://blog.csdn.net/sxf1061926959/article/details/66976356?locationNum=9&fps=1" target="_blank" rel="noopener">线性回归理解（附纯python实现）</a> </li>
+<li><a href="http://scikit-learn.org/stable/auto_examples/linear_model/plot_ols.html#sphx-glr-auto-examples-linear-model-plot-ols-py" target="_blank" rel="noopener">sklaern官网例程</a></li>
+</ul>
+</center></center></center>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -944,20 +1145,20 @@ Fig.7 ResNet 在 ImageNet 上的具体网络架构
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-count">16</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-count">19</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
