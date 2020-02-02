@@ -105,8 +105,7 @@
   </style>
 </noscript>
 
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -151,12 +150,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">19</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">20</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">5</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -251,36 +250,7 @@
 <p>这里我的思路是有问题的，原因是我没有想清楚该做什么。我的思路是保存随机指针指向的ID，这一步保存ID是对的，但是随机指针不对，这里保存的应该是新链表中的指针，而不是旧链表，同理，新建新的指针时，值可以保存，但是next指针和随机指针不能一次性保存的。</p>
 <p>正确的方法，应该是，根据原链表的长度建立新链表，仅仅将值域的值赋值，next域和random域暂时不用管，并且将新节点存放到vector中，然后保存旧节点的地址对应的id。</p>
 <p>然后再次遍历旧节点，连接新节点的next域，然后由于map中保存的是旧节点的地址，所以对旧节点的random域取地址，该地址一定在map中，且对应的key值即为指向的id，结合该id在vector中索引，即可得到新节点中的random指针的地址。<br>最终代码如下：</p>
-<pre class="line-numbers language-c"><code class="language-c">Node<span class="token operator">*</span> <span class="token function">copyRandomList</span><span class="token punctuation">(</span>Node<span class="token operator">*</span> head<span class="token punctuation">)</span>
-<span class="token punctuation">{</span>
-    std<span class="token punctuation">:</span><span class="token punctuation">:</span>map<span class="token operator">&lt;</span>Node<span class="token operator">*</span><span class="token punctuation">,</span> <span class="token keyword">int</span> <span class="token operator">></span> node_map<span class="token punctuation">;</span>
-    std<span class="token punctuation">:</span><span class="token punctuation">:</span>vector<span class="token operator">&lt;</span>Node<span class="token operator">*</span><span class="token operator">></span> node_vec<span class="token punctuation">;</span>
-    Node<span class="token operator">*</span> ptr <span class="token operator">=</span> head<span class="token punctuation">;</span>
-    <span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>ptr<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        node_vec<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>new <span class="token function">Node</span><span class="token punctuation">(</span>ptr<span class="token operator">-></span>val<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token comment" spellcheck="true">//记录ptr 和ID的映射</span>
-        node_map<span class="token punctuation">[</span>ptr<span class="token punctuation">]</span> <span class="token operator">=</span> i<span class="token operator">++</span><span class="token punctuation">;</span>
-        ptr <span class="token operator">=</span> ptr<span class="token operator">-></span>next<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-
-    node_vec<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    ptr <span class="token operator">=</span> head<span class="token punctuation">;</span>
-    i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>ptr<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        node_vec<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-></span>next <span class="token operator">=</span> node_vec<span class="token punctuation">[</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>ptr<span class="token operator">-></span>random<span class="token operator">!=</span><span class="token constant">NULL</span><span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            <span class="token keyword">int</span> id <span class="token operator">=</span> node_map<span class="token punctuation">[</span>ptr<span class="token operator">-></span>random<span class="token punctuation">]</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true">//get ID</span>
-            node_vec<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">-></span>random <span class="token operator">=</span> node_vec<span class="token punctuation">[</span>id<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        ptr <span class="token operator">=</span> ptr<span class="token operator">-></span>next<span class="token punctuation">;</span>
-        i<span class="token operator">++</span><span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token keyword">return</span> node_vec<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Node* <span class="title">copyRandomList</span><span class="params">(Node* head)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">map</span>&lt;Node*, <span class="keyword">int</span> &gt; node_map;</span><br><span class="line">	<span class="built_in">std</span>::<span class="built_in">vector</span>&lt;Node*&gt; node_vec;</span><br><span class="line">	Node* ptr = head;</span><br><span class="line">	<span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (ptr)</span><br><span class="line">	&#123;</span><br><span class="line">		node_vec.push_back(<span class="keyword">new</span> Node(ptr-&gt;val));</span><br><span class="line">		<span class="comment">//记录ptr 和ID的映射</span></span><br><span class="line">		node_map[ptr] = i++;</span><br><span class="line">		ptr = ptr-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	node_vec.push_back(<span class="number">0</span>);</span><br><span class="line">	ptr = head;</span><br><span class="line">	i = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">while</span> (ptr)</span><br><span class="line">	&#123;</span><br><span class="line">		node_vec[i]-&gt;next = node_vec[i + <span class="number">1</span>];</span><br><span class="line">		<span class="keyword">if</span> (ptr-&gt;<span class="built_in">random</span>!=<span class="literal">NULL</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">int</span> id = node_map[ptr-&gt;<span class="built_in">random</span>];<span class="comment">//get ID</span></span><br><span class="line">			node_vec[i]-&gt;<span class="built_in">random</span> = node_vec[id];</span><br><span class="line">		&#125;</span><br><span class="line">		ptr = ptr-&gt;next;</span><br><span class="line">		i++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> node_vec[<span class="number">0</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -389,13 +359,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

@@ -103,8 +103,7 @@
   </style>
 </noscript>
 
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -149,12 +148,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">19</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">20</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">5</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -249,39 +248,7 @@
 <p>输入: head = 1-&gt;4-&gt;3-&gt;2-&gt;5-&gt;2, x = 3<br>输出: 1-&gt;2-&gt;2-&gt;4-&gt;3-&gt;5</p>
 <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>这个题目，先开始是我的思路错误，虽然我知道这个题目需要设置临时头结点，但是由于审题不清，我最先开始是想设置一个临时的结点tempnode，然后小于x就插入tempnode之前，大于或等于x就插入tempnode之后，但是当我看完相关的视频之后，发现题目的要求并不是这样的，因为题目是要求保持相对位置，而如果像我那样插入就会出现这样的情况：<br>1-&gt;2-&gt;2-&gt;tempnode-&gt;5-&gt;3-&gt;4<br>这样的结果就和题目要求的相反，看过正确答案后，不得不承认这个题目非常简单，只需要设置两个头结点，temp_less和temp_more，将小于x的值插入temp_less后面，将大于或者等于x的值插入到temp_more后面，然后将temp_less和temp_more链接起来，并将temp_more的next指针赋值为NULL，最后返回temp_less-&gt;next即可。</p>
 <p>中间出现时间超过限制的错误，最后发现不断有输出数据跳出来，检查发现，temp_more的指针没有赋值为NULL，故不断循环下去。<br>另外注意的是链接两个链表时要连接头结点！！！而temp_less和temp_more不在是头结点了。<br>最终代码如下：</p>
-<pre class="line-numbers language-c"><code class="language-c"><span class="token comment" spellcheck="true">//技巧在于巧用临时头结点</span>
-    ListNode <span class="token function">less_head</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    ListNode <span class="token function">more_head</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    ListNode<span class="token operator">*</span> tempnode_less <span class="token operator">=</span> <span class="token operator">&amp;</span>less_head<span class="token punctuation">;</span>
-    ListNode<span class="token operator">*</span> tempnode_more <span class="token operator">=</span> <span class="token operator">&amp;</span>more_head<span class="token punctuation">;</span>
-    ListNode<span class="token operator">*</span> result <span class="token operator">=</span> head<span class="token punctuation">;</span>
-    <span class="token comment" spellcheck="true">//if head is not NULL</span>
-    <span class="token keyword">while</span> <span class="token punctuation">(</span>head<span class="token punctuation">)</span>
-    <span class="token punctuation">{</span>
-        <span class="token comment" spellcheck="true">//save head 's next</span>
-        ListNode<span class="token operator">*</span> next <span class="token operator">=</span> head<span class="token operator">-></span>next<span class="token punctuation">;</span>
-
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>head<span class="token operator">-></span>val <span class="token operator">&lt;</span>x<span class="token punctuation">)</span>
-        <span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">//create less x list node</span>
-            tempnode_less<span class="token operator">-></span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
-            tempnode_less <span class="token operator">=</span> head<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">else</span>
-        <span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">//create more x list node</span>
-            tempnode_more<span class="token operator">-></span>next <span class="token operator">=</span> head<span class="token punctuation">;</span>
-            tempnode_more <span class="token operator">=</span> head<span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-
-        <span class="token comment" spellcheck="true">//begin next node</span>
-        head <span class="token operator">=</span> next<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-    <span class="token comment" spellcheck="true">//connect list node, care of "more_head.next"</span>
-    tempnode_less<span class="token operator">-></span>next <span class="token operator">=</span> more_head<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
-    tempnode_more<span class="token operator">-></span>next <span class="token operator">=</span> <span class="token constant">NULL</span><span class="token punctuation">;</span>
-    <span class="token keyword">return</span> less_head<span class="token punctuation">.</span>next<span class="token punctuation">;</span>
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//技巧在于巧用临时头结点</span></span><br><span class="line">	<span class="function">ListNode <span class="title">less_head</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">	<span class="function">ListNode <span class="title">more_head</span><span class="params">(<span class="number">0</span>)</span></span>;</span><br><span class="line">	ListNode* tempnode_less = &amp;less_head;</span><br><span class="line">	ListNode* tempnode_more = &amp;more_head;</span><br><span class="line">	ListNode* result = head;</span><br><span class="line">	<span class="comment">//if head is not NULL</span></span><br><span class="line">	<span class="keyword">while</span> (head)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">//save head 's next</span></span><br><span class="line">		ListNode* next = head-&gt;next;</span><br><span class="line"> </span><br><span class="line">		<span class="keyword">if</span> (head-&gt;val &lt;x)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//create less x list node</span></span><br><span class="line">			tempnode_less-&gt;next = head;</span><br><span class="line">			tempnode_less = head;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//create more x list node</span></span><br><span class="line">			tempnode_more-&gt;next = head;</span><br><span class="line">			tempnode_more = head;</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		<span class="comment">//begin next node</span></span><br><span class="line">		head = next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//connect list node, care of "more_head.next"</span></span><br><span class="line">	tempnode_less-&gt;next = more_head.next;</span><br><span class="line">	tempnode_more-&gt;next = <span class="literal">NULL</span>;</span><br><span class="line">	<span class="keyword">return</span> less_head.next;</span><br></pre></td></tr></table></figure>
 <p>最终用时：超过一小时</p>
 
     </div>
@@ -391,13 +358,13 @@
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

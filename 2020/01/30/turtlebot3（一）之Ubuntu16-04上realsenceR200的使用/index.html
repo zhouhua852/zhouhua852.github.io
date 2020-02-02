@@ -109,8 +109,7 @@
   </style>
 </noscript>
 
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -155,12 +154,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">19</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">20</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">5</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -253,24 +252,44 @@
 <p>在这个网址安装时，由于当时使用<code>git clone</code>下载，后来发现下载的文件就是并非使用于 R200，所以建议直接下载 zip 文件，现在之后根据页面的安装手册，可以比较轻松的完成。</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjE4MjIxNjM1Njg1?x-oss-process=image/format,png" alt="linux的安装手册"></p>
 <p>##3rd-party<br>首先，需要安装 3rd-party 依赖 1.保证 apt-get 的更新</p>
-<pre><code>sudo apt-get update &amp;&amp; sudo apt-get upgrade</code></pre><p>2.安装<code>libusb-1.0</code>和<code>pkg-config</code></p>
-<pre><code>sudo apt-get install libusb-1.0-0-dev pkg-config</code></pre><p>3.安装<code>glfw3</code>，Ubuntu14.04 需要用脚本安装（详见英文文档），Ubuntu16.04 可以直接用 apt-get 方式安装</p>
-<pre><code>sudo apt-get install libglfw3-dev</code></pre><p>4.官方提供了 qt 和 cmake 来编译文件，这里选择使用 cmake 方式编译</p>
-<pre><code>mkdir build
-cd build</code></pre><p>这里将例程程序的编译也打开，方便安装完成后直接查看视频。</p>
-<pre><code>cmake .. -DBUILD_EXAMPLES:BOOL=true</code></pre><p>安装路径在<code>/usr/local/lib</code> ,头文件在<code>/usr/local/include</code></p>
-<pre><code>make &amp;&amp; sudo make instal</code></pre><p>例程的执行程序在<code>build/examples</code>下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update &amp;&amp; sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+
+<p>2.安装<code>libusb-1.0</code>和<code>pkg-config</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libusb-1.0-0-dev pkg-config</span><br></pre></td></tr></table></figure>
+
+<p>3.安装<code>glfw3</code>，Ubuntu14.04 需要用脚本安装（详见英文文档），Ubuntu16.04 可以直接用 apt-get 方式安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install libglfw3-dev</span><br></pre></td></tr></table></figure>
+
+<p>4.官方提供了 qt 和 cmake 来编译文件，这里选择使用 cmake 方式编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line">cd build</span><br></pre></td></tr></table></figure>
+
+<p>这里将例程程序的编译也打开，方便安装完成后直接查看视频。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake .. -DBUILD_EXAMPLES:BOOL&#x3D;true</span><br></pre></td></tr></table></figure>
+
+<p>安装路径在<code>/usr/local/lib</code> ,头文件在<code>/usr/local/include</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; sudo make instal</span><br></pre></td></tr></table></figure>
+
+<p>例程的执行程序在<code>build/examples</code>下</p>
 <p>##Video4Linux backend 安装 1.确保<strong>没有摄像头</strong>插上系统，注意拔出所有摄像头。 2.安装<code>udve rules</code><br>返回源码目录，运行</p>
-<pre><code>sudo cp config/99-realsense-libusb.rules /etc/udev/rules.d/
-sudo udevadm control --reload-rules &amp;&amp; udevadm trigger</code></pre><p>3.根据自己系统选择相应的方式选择安装版本。<br>由于我的系统是 Ubuntu16.04，内核为 4.4（<code>uname –a</code>命令查看系统和内核版本）</p>
-<pre><code>./scripts/patch-uvcvideo-16.04.simple.sh</code></pre><p>这一步要经过漫长的安装。。。 4.重载 uvcvideo 驱动</p>
-<pre><code>sudo modprobe uvcvideo</code></pre><p>5.查看安装信息的最后 50 行，应该可以看到一个新的 uvcvideo 驱动被安装</p>
-<pre><code>sudo dmesg | tail -n 50</code></pre><p>运行后提示：（部分）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp config&#x2F;99-realsense-libusb.rules &#x2F;etc&#x2F;udev&#x2F;rules.d&#x2F;</span><br><span class="line">sudo udevadm control --reload-rules &amp;&amp; udevadm trigger</span><br></pre></td></tr></table></figure>
+
+<p>3.根据自己系统选择相应的方式选择安装版本。<br>由于我的系统是 Ubuntu16.04，内核为 4.4（<code>uname –a</code>命令查看系统和内核版本）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;scripts&#x2F;patch-uvcvideo-16.04.simple.sh</span><br></pre></td></tr></table></figure>
+
+<p>这一步要经过漫长的安装。。。 4.重载 uvcvideo 驱动</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo modprobe uvcvideo</span><br></pre></td></tr></table></figure>
+
+<p>5.查看安装信息的最后 50 行，应该可以看到一个新的 uvcvideo 驱动被安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo dmesg | tail -n 50</span><br></pre></td></tr></table></figure>
+
+<p>运行后提示：（部分）</p>
 <blockquote>
 <p>Bluetooth: BNEP (Ethernet Emulation) ver 1.3<br>[ 34.033878] Bluetooth: BNEP filters: protocol multicast<br>[ 34.033885] Bluetooth: BNEP socket layer initialized<br>[ 39.136255] IPv6: ADDRCONF(NETDEV_UP): wlp1s0: link is not ready<br>[ 39.136424] iwlwifi 0000:01:00.0: L1 Disabled - LTR Disabled<br>[ 39.136685] iwlwifi 0000:01:00.0: L1 Disabled - LTR Disabled<br>[ 39.272219] iwlwifi 0000:01:00.0: L1 Disabled - LTR Disabled<br>[ 39.272483] iwlwifi 0000:01:00.0: L1 Disabled - LTR Disabled<br>[ 39.279661] mmc0: Got data interrupt 0x00000002 even though no data operation was in progress.<br>[ 39.341626] IPv6: ADDRCONF(NETDEV_UP): wlp1s0: link is not ready<br>[ 43.965760] IPv6: ADDRCONF(NETDEV_UP): wlp1s0: link is not ready<br>[ 48.638656] wlp1s0: authenticate with b0:95:8e:89:3a:0f<br>[ 48.640376] wlp1s0: send auth to b0:95:8e:89:3a:0f (try 1/3)<br>[ 48.756518] wlp1s0: send auth to b0:95:8e:89:3a:0f (try 2/3)<br>[ 48.758473] wlp1s0: authenticated<br>[ 48.761946] wlp1s0: associate with b0:95:8e:89:3a:0f (try 1/3)<br>[ 48.766951] wlp1s0: RX AssocResp from b0:95:8e:89:3a:0f (capab=0x431 status=0 aid=8)<br>[ 48.768057] wlp1s0: associated<br>[ 48.768117] IPv6: ADDRCONF(NETDEV_CHANGE): wlp1s0: link becomes ready<br>[ 49.063317] iwlwifi 0000:01:00.0: No association and the time event is over already…<br>[ 49.064030] wlp1s0: Connection to AP b0:95:8e:89:3a:0f lost<br>[ 64.507052] Bluetooth: RFCOMM TTY layer initialized<br>[ 64.507067] Bluetooth: RFCOMM socket layer initialized<br>[ 64.507076] Bluetooth: RFCOMM ver 1.11<br>[ 73.308219] wlp1s0: authenticate with b0:95:8e:89:3a:0f<br>[ 73.309839] wlp1s0: send auth to b0:95:8e:89:3a:0f (try 1/3)<br>[ 73.312326] wlp1s0: authenticated<br>[ 73.313219] wlp1s0: associate with b0:95:8e:89:3a:0f (try 1/3)<br>[ 73.319809] wlp1s0: RX AssocResp from b0:95:8e:89:3a:0f (capab=0x431 status=0 aid=8)<br>[ 73.321144] wlp1s0: associated<br>[ 75.552939] EXT4-fs (mmcblk1p3): recovery complete<br>[ 75.552950] EXT4-fs (mmcblk1p3): mounted filesystem with ordered data mode. Opts: (null)<br>[ 251.938597] media: Linux media interface: v0.10<br>[ 251.962588] Linux video capture interface: v2.00<br>[ 252.051084] usbcore: registered new interface driver uvcvideo<br>[ 252.051089] USB Video Class driver (1.1.1)</p>
 </blockquote>
 <p>到此为止，安装驱动过程已经全部完成，插上摄像头，运行 build/examples 下的文件即可看到效果</p>
-<pre><code>./cpp-capture</code></pre><p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjE4MjIyMzQ2NTU1?x-oss-process=image/format,png" alt="截图1"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;cpp-capture</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjE4MjIyMzQ2NTU1?x-oss-process=image/format,png" alt="截图1"></p>
 <p>尝试运行其他程序得到相应的结果：</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cDovL2ltZy5ibG9nLmNzZG4ubmV0LzIwMTcxMjE4MjIyNDM3OTky?x-oss-process=image/format,png" alt="运行config-gui"></p>
 <p>##遇到的问题<br>安装完成后，使用 PC 上的虚拟机远程连接 turtlebot3 运行例子并不管用，即使开启了使用虚拟机桌面的权限也没法运行起来，而且有时出现找不到设备的情况，然后当使用 turtlebot3 插上 mirco HDMI 线，使用显示屏开机时，发现一切正常，欣喜若狂啊，猜测它应该是要求系统加载桌面才能跑通 demo，因为即使说 turtlebot3 开机了，但是在开机的时候没有连接 HDMI 线，开机完成才连接，也没法完整运行例子程序，老是显示找不到设备。除此之外，turtlebor3 无缘无故”死机”的问题还没解决.</p>
@@ -386,13 +405,13 @@ sudo udevadm control --reload-rules &amp;&amp; udevadm trigger</code></pre><p>3.
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

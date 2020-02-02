@@ -54,8 +54,9 @@
 <meta property="og:description" content="最近在GitHub Pages中搭建了hexo博客，并且使用了next主题，当使用文字博客或者外链图片时没有什么问题，但是使用内置图片却出现了问题，在此记录下来。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-02-02T03:06:45.000Z">
-<meta property="article:modified_time" content="2020-02-02T04:15:19.270Z">
+<meta property="article:modified_time" content="2020-02-02T04:37:17.845Z">
 <meta property="article:author" content="Chouzz">
+<meta property="article:tag" content="hexo图片加载">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://chouzz.ml/2020/02/02/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%97%B6%E5%9B%BE%E7%89%87%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/">
@@ -101,8 +102,7 @@
   </style>
 </noscript>
 
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -147,12 +147,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">19</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">20</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">5</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -211,7 +211,18 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2020-02-02 11:06:45 / 修改时间：12:15:19" itemprop="dateCreated datePublished" datetime="2020-02-02T11:06:45+08:00">2020-02-02</time>
+              <time title="创建时间：2020-02-02 11:06:45 / 修改时间：12:37:17" itemprop="dateCreated datePublished" datetime="2020-02-02T11:06:45+08:00">2020-02-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%8D%9A%E5%AE%A2/" itemprop="url" rel="index">
+                    <span itemprop="name">博客</span>
+                  </a>
+                </span>
             </span>
 
           
@@ -228,78 +239,17 @@
       
         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近在GitHub Pages中搭建了hexo博客，并且使用了next主题，当使用文字博客或者外链图片时没有什么问题，但是使用内置图片却出现了问题，在此记录下来。</p>
 <h1 id="hexo-asset-image无法在新版本使用"><a href="#hexo-asset-image无法在新版本使用" class="headerlink" title="hexo-asset-image无法在新版本使用"></a>hexo-asset-image无法在新版本使用</h1><p>当发布新文章时，我使用了<code>hexo-asset-image</code>这个插件，这个插件需要在_config.yml中设置<code>post_asset_folder</code>为<strong>true</strong>才能开启，并且需要安装插件，安装方法为:</p>
-<pre><code>npm install hexo-asset-image --save</code></pre><p>使用该插件后新建文章<code>hexo new &quot;测试文章&quot;</code>，就会在post文件夹生成同名的文件夹，该文件夹为存放图片的文件夹，然后再在文章里使用markdown的引用图片的方式进行引用，在使用<code>hexo generate</code>后，生成的html文件会自动的加上图片的绝对路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>使用该插件后新建文章<code>hexo new &quot;测试文章&quot;</code>，就会在post文件夹生成同名的文件夹，该文件夹为存放图片的文件夹，然后再在文章里使用markdown的引用图片的方式进行引用，在使用<code>hexo generate</code>后，生成的html文件会自动的加上图片的绝对路径。</p>
 <p>但是这中方法在hexo3.0之后貌似无法使用，目前我用的hexo版本为4.2，也是无法使用的，生成的链接类似：</p>
-<pre><code>/.ml//logo.jpg</code></pre><p>导致在网页上无法显示</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;.ml&#x2F;&#x2F;logo.jpg</span><br></pre></td></tr></table></figure>
+<p>导致在网页上无法显示</p>
 <h1 id="修改方法"><a href="#修改方法" class="headerlink" title="修改方法"></a>修改方法</h1><p>第一种修改方法为通过hexo自带的图片标签，如  </p>
-<pre><code>{% asset_path slug %}
-{% asset_img slug [title] %}
-{% asset_link slug [title] %}</code></pre><p>详见hexo官方对资源文件夹的<a href="https://hexo.io/zh-cn/docs/asset-folders" target="_blank" rel="noopener">说明</a>,官方也明确提到了，如果使用markdown的语法，图片可能不会正常显示。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_path slug %&#125;</span><br><span class="line">&#123;% asset_img slug [title] %&#125;</span><br><span class="line">&#123;% asset_link slug [title] %&#125;</span><br></pre></td></tr></table></figure>
+<p>详见hexo官方对资源文件夹的<a href="https://hexo.io/zh-cn/docs/asset-folders" target="_blank" rel="noopener">说明</a>,官方也明确提到了，如果使用markdown的语法，图片可能不会正常显示。</p>
 <p>第二种修改方法时是通过修改<code>hexo-asset-image</code>这个插件的源代码来实现的，找到路径<code>node_modules\hexo-asset-image\index.js</code>,替换其中的内容为：</p>
-<pre class="line-numbers language-JavaScript"><code class="language-JavaScript">'use strict';
-var cheerio = require('cheerio');
-
-// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string
-function getPosition(str, m, i) {
-  return str.split(m, i).join(m).length;
-}
-
-var version = String(hexo.version).split('.');
-hexo.extend.filter.register('after_post_render', function(data){
-  var config = hexo.config;
-  if(config.post_asset_folder){
-        var link = data.permalink;
-    if(version.length > 0 && Number(version[0]) == 3)
-       var beginPos = getPosition(link, '/', 1) + 1;
-    else
-       var beginPos = getPosition(link, '/', 3) + 1;
-    // In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".
-    var endPos = link.lastIndexOf('/') + 1;
-    link = link.substring(beginPos, endPos);
-
-    var toprocess = ['excerpt', 'more', 'content'];
-    for(var i = 0; i < toprocess.length; i++){
-      var key = toprocess[i];
-
-      var $ = cheerio.load(data[key], {
-        ignoreWhitespace: false,
-        xmlMode: false,
-        lowerCaseTags: false,
-        decodeEntities: false
-      });
-
-      $('img').each(function(){
-        if ($(this).attr('src')){
-            // For windows style path, we replace '\' to '/'.
-            var src = $(this).attr('src').replace('\\', '/');
-            if(!/http[s]*.*|\/\/.*/.test(src) &&
-               !/^\s*\//.test(src)) {
-              // For "about" page, the first part of "src" can't be removed.
-              // In addition, to support multi-level local directory.
-              var linkArray = link.split('/').filter(function(elem){
-                return elem != '';
-              });
-              var srcArray = src.split('/').filter(function(elem){
-                return elem != '' && elem != '.';
-              });
-              if(srcArray.length > 1)
-                srcArray.shift();
-              src = srcArray.join('/');
-              $(this).attr('src', config.root + link + src);
-              console.info&&console.info("update link as:-->"+config.root + link + src);
-            }
-        }else{
-            console.info&&console.info("no src attr, skipped...");
-            console.info&&console.info($(this));
-        }
-      });
-      data[key] = $.html();
-    }
-  }
-});
-
-<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">'use strict'</span>;</span><br><span class="line"><span class="keyword">var</span> cheerio = <span class="built_in">require</span>(<span class="string">'cheerio'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getPosition</span>(<span class="params">str, m, i</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> str.split(m, i).join(m).length;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> version = <span class="built_in">String</span>(hexo.version).split(<span class="string">'.'</span>);</span><br><span class="line">hexo.extend.filter.register(<span class="string">'after_post_render'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> config = hexo.config;</span><br><span class="line">  <span class="keyword">if</span>(config.post_asset_folder)&#123;</span><br><span class="line">    	<span class="keyword">var</span> link = data.permalink;</span><br><span class="line">	<span class="keyword">if</span>(version.length &gt; <span class="number">0</span> &amp;&amp; <span class="built_in">Number</span>(version[<span class="number">0</span>]) == <span class="number">3</span>)</span><br><span class="line">	   <span class="keyword">var</span> beginPos = getPosition(link, <span class="string">'/'</span>, <span class="number">1</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	   <span class="keyword">var</span> beginPos = getPosition(link, <span class="string">'/'</span>, <span class="number">3</span>) + <span class="number">1</span>;</span><br><span class="line">	<span class="comment">// In hexo 3.1.1, the permalink of "about" page is like ".../about/index.html".</span></span><br><span class="line">	<span class="keyword">var</span> endPos = link.lastIndexOf(<span class="string">'/'</span>) + <span class="number">1</span>;</span><br><span class="line">    link = link.substring(beginPos, endPos);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> toprocess = [<span class="string">'excerpt'</span>, <span class="string">'more'</span>, <span class="string">'content'</span>];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; toprocess.length; i++)&#123;</span><br><span class="line">      <span class="keyword">var</span> key = toprocess[i];</span><br><span class="line"> </span><br><span class="line">      <span class="keyword">var</span> $ = cheerio.load(data[key], &#123;</span><br><span class="line">        ignoreWhitespace: <span class="literal">false</span>,</span><br><span class="line">        xmlMode: <span class="literal">false</span>,</span><br><span class="line">        lowerCaseTags: <span class="literal">false</span>,</span><br><span class="line">        decodeEntities: <span class="literal">false</span></span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      $(<span class="string">'img'</span>).each(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">if</span> ($(<span class="keyword">this</span>).attr(<span class="string">'src'</span>))&#123;</span><br><span class="line">			<span class="comment">// For windows style path, we replace '\' to '/'.</span></span><br><span class="line">			<span class="keyword">var</span> src = $(<span class="keyword">this</span>).attr(<span class="string">'src'</span>).replace(<span class="string">'\\'</span>, <span class="string">'/'</span>);</span><br><span class="line">			<span class="keyword">if</span>(!<span class="regexp">/http[s]*.*|\/\/.*/</span>.test(src) &amp;&amp;</span><br><span class="line">			   !<span class="regexp">/^\s*\//</span>.test(src)) &#123;</span><br><span class="line">			  <span class="comment">// For "about" page, the first part of "src" can't be removed.</span></span><br><span class="line">			  <span class="comment">// In addition, to support multi-level local directory.</span></span><br><span class="line">			  <span class="keyword">var</span> linkArray = link.split(<span class="string">'/'</span>).filter(<span class="function"><span class="keyword">function</span>(<span class="params">elem</span>)</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">''</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">var</span> srcArray = src.split(<span class="string">'/'</span>).filter(<span class="function"><span class="keyword">function</span>(<span class="params">elem</span>)</span>&#123;</span><br><span class="line">				<span class="keyword">return</span> elem != <span class="string">''</span> &amp;&amp; elem != <span class="string">'.'</span>;</span><br><span class="line">			  &#125;);</span><br><span class="line">			  <span class="keyword">if</span>(srcArray.length &gt; <span class="number">1</span>)</span><br><span class="line">				srcArray.shift();</span><br><span class="line">			  src = srcArray.join(<span class="string">'/'</span>);</span><br><span class="line">			  $(<span class="keyword">this</span>).attr(<span class="string">'src'</span>, config.root + link + src);</span><br><span class="line">			  <span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info(<span class="string">"update link as:--&gt;"</span>+config.root + link + src);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info(<span class="string">"no src attr, skipped..."</span>);</span><br><span class="line">			<span class="built_in">console</span>.info&amp;&amp;<span class="built_in">console</span>.info($(<span class="keyword">this</span>));</span><br><span class="line">		&#125;</span><br><span class="line">      &#125;);</span><br><span class="line">      data[key] = $.html();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -307,6 +257,9 @@ hexo.extend.filter.register('after_post_render', function(data){
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo%E5%9B%BE%E7%89%87%E5%8A%A0%E8%BD%BD/" rel="tag"># hexo图片加载</a>
+          </div>
 
         
 
@@ -400,13 +353,13 @@ hexo.extend.filter.register('after_post_render', function(data){
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

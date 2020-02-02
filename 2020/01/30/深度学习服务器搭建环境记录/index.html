@@ -102,8 +102,7 @@
   </style>
 </noscript>
 
-<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css">
-<link rel="stylesheet" href="/css/prism-line-numbers.css" type="text/css"></head>
+<link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -148,12 +147,12 @@
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">19</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">20</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">5</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -259,9 +258,8 @@
 </ul>
 <h1 id="1-下载-anaconda"><a href="#1-下载-anaconda" class="headerlink" title="1. 下载 anaconda"></a>1. 下载 anaconda</h1><p>anaconda 的安装比较简单，参考<a href="https://docs.continuum.io/anaconda/install/linux.html" target="_blank" rel="noopener">官方文档的安装</a>即可，可以通过 Linux 下 wget 命令下载 anaconda 安装包，官网安装包下载比较慢，推荐使用<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/" target="_blank" rel="noopener">清华开源软件镜像站下载</a>，注意需要下载的版本要和 python 的版本对应，我想使用 python3.6，故而下载的是 anaconda5.2.0,当然，也可以下载最新的 anaconda 版本，再通过创建虚拟环境来安装想要的 python 版本都可以。<br>下载完直接使用<br><code>bash bash Anaconda3-5.2.0-Linux-x86_64.sh</code><br>命令安装即可，注意选择安装位置。</p>
 <h1 id="2-配置环境"><a href="#2-配置环境" class="headerlink" title="2. 配置环境"></a>2. 配置环境</h1><h2 id="1-添加镜像源"><a href="#1-添加镜像源" class="headerlink" title="1) 添加镜像源"></a>1) 添加镜像源</h2><p>由于 anaconda 源在国外，访问速度可能很慢，可以添加清华镜像源，能够使下载安装包的速度大大提高。操作非常简单，在 anaconda prompt 中输入</p>
-<pre class="line-numbers language-bash"><code class="language-bash">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
-conda config --set show_channel_urls <span class="token function">yes</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</span><br><span class="line">conda config --<span class="built_in">set</span> show_channel_urls yes</span><br></pre></td></tr></table></figure>
+
 <h2 id="2-创建虚拟环境"><a href="#2-创建虚拟环境" class="headerlink" title="2) 创建虚拟环境"></a>2) 创建虚拟环境</h2><p>可以通过网络搜索得到 anaconda 创建环境的命令为：<br><code>conda create --name env_zh python=3.6</code><br>也可以通过命令 conda -h 或 conda create -h 来查看 conda 自带的帮助手册，自带的帮助说明比网上搜索到的更加详细。还可以通过来<br>常用的命令如下<br><code>conda -h : anaconda</code>自带的帮助命令，很实用，网上搜索到的很多都不详细<br><code>conda create -h</code> 创建虚拟环境时的帮助命令，网上搜索不到时很有用<br><code>conda create --name env_zh --clone old_env</code>复制或克隆环境，可以复制已经搭建好的环境<br><code>conda env list</code>：查看现有的环境列表<br><code>conda-env remove -n test2</code> 删除 test2 虚拟环境<br><code>conda activate env_zh</code> 切换到 env_zh 虚拟环境<br><code>conda deactivate</code> 退出虚拟环境<br><code>conda serach tensorflow-gpu</code>搜索 tensorflow-GPU 的安装包，可以看到有多个版本的安装包</p>
 <h2 id="3）安装-tensorflow-GPU"><a href="#3）安装-tensorflow-GPU" class="headerlink" title="3）安装 tensorflow-GPU"></a>3）安装 tensorflow-GPU</h2><p><code>conda install tensorflow-GPU=1.4</code>: 由于服务器上面已经安装了 CUDA，并且版本为 CUDA8，最高只支持<a href="https://tensorflow.google.cn/install/source" target="_blank" rel="noopener">tensorflow1.4</a>，如下图所示，1.4 版本的 tensorflowGPU 支持 3.6python 以及 6 版本的 cuDNN<br>除此之外，其他和 tensorflow 有关的常用命令如下：<br><code>cat /usr/local/cuda/version.txt</code> ： 查看 CUDA 版本的命令<br><code>cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2</code> 查看 cudnn 版本命令<br><code>watch nvidia-smi</code> 实时查看当前 GPU 显存占用率</p>
 <h2 id="4）windows-上使用服务器上的-jupyter-notebook"><a href="#4）windows-上使用服务器上的-jupyter-notebook" class="headerlink" title="4）windows 上使用服务器上的 jupyter notebook"></a>4）windows 上使用服务器上的 jupyter notebook</h2><p>在 windows 上使用 Linux 上的虚拟环境的 jupyter notebook<br>首先要保证在同一个局域网，Linux 上装好 anaconda，然后创建虚拟环境 env_zh,切换到虚拟环境<br><strong>第一种方法</strong></p>
@@ -274,8 +272,8 @@ conda config --set show_channel_urls <span class="token function">yes</span><spa
 </blockquote>
 <h2 id="5）在-windows-上使用-vscode-同步代码到-Linux-上运行"><a href="#5）在-windows-上使用-vscode-同步代码到-Linux-上运行" class="headerlink" title="5）在 windows 上使用 vscode 同步代码到 Linux 上运行"></a>5）在 windows 上使用 vscode 同步代码到 Linux 上运行</h2><p>参考<a href="https://code.visualstudio.com/docs/remote/remote-overview" target="_blank" rel="noopener">微软官方教程</a>，其实很简单，只需要在服务器上安装 ssh server，在 vscode 中安装远程开发包，然后通过 ip 地址远程连接就可以了。我没有去弄远程调试功能，因为比较麻烦，在服务器命令行中直接使用 python 运行就可以了。虽然官方教程显示远程开发环境搭建需要 Ubuntu16.04 及以上，但是我使用 Ubuntu14.04 也能够安装成功。</p>
 <h2 id="6）测试-GPU-是否可用"><a href="#6）测试-GPU-是否可用" class="headerlink" title="6）测试 GPU 是否可用"></a>6）测试 GPU 是否可用</h2><p>在服务器上启动 jupyter server，在 windows 上登录网址，通过运行以下代码可以测试安装 GPU 版本的 tensorflow 是否成功</p>
-<pre class="line-numbers language-python"><code class="language-python"><span class="token keyword">import</span> tensorflow <span class="token keyword">as</span> tf
-sess <span class="token operator">=</span> tf<span class="token punctuation">.</span>Session<span class="token punctuation">(</span>config<span class="token operator">=</span>tf<span class="token punctuation">.</span>ConfigProto<span class="token punctuation">(</span>log_device_placement<span class="token operator">=</span><span class="token boolean">True</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</span><br><span class="line">sess = tf.Session(config=tf.ConfigProto(log_device_placement=<span class="literal">True</span>))</span><br></pre></td></tr></table></figure>
+
 <p>如果成功，会显示一个 CPU 和 GPU 的信息，我的是显示有 1 个 CPU 和两个 GPU。</p>
 <h2 id="7）在服务器上使用后台运行代码"><a href="#7）在服务器上使用后台运行代码" class="headerlink" title="7）在服务器上使用后台运行代码"></a>7）在服务器上使用后台运行代码</h2><p>如果通过 putty 连接服务器来运行代码时，当连接断掉会自动停止，可以让代码在后台运行，这样就可以一直跑程序了。<br><a href="https://blog.csdn.net/sinat_28807899/article/details/89535005" target="_blank" rel="noopener">参考</a></p>
 <h1 id="3-windows-与-Linux-系统之间的文件互相转移"><a href="#3-windows-与-Linux-系统之间的文件互相转移" class="headerlink" title="3. windows 与 Linux 系统之间的文件互相转移"></a>3. windows 与 Linux 系统之间的文件互相转移</h1><p>当在 Ubuntu 上搭建好了深度学习环境，有时数据集在 windows 上，如何将数据集转移到服务器上呢？用 U 盘比较麻烦，这里通过使用共享 windows 文件，然后在 Linux 上挂载文件就可以实现在 Linux 上访问 windows 文件夹的方法了。</p>
@@ -403,13 +401,13 @@ sess <span class="token operator">=</span> tf<span class="token punctuation">.</
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
