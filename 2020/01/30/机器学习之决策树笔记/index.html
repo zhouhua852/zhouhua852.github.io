@@ -58,7 +58,7 @@
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNTE0NDUzMzczND93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png">
 <meta property="og:image" content="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDIxMDIyNzM1ND93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png">
 <meta property="article:published_time" content="2020-01-30T14:50:13.000Z">
-<meta property="article:modified_time" content="2020-01-30T15:09:46.919Z">
+<meta property="article:modified_time" content="2020-07-19T03:02:30.720Z">
 <meta property="article:author" content="Chouzz">
 <meta property="article:tag" content="决策树">
 <meta property="article:tag" content="信息熵">
@@ -215,10 +215,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-01-30 22:50:13 / 修改时间：23:09:46" itemprop="dateCreated datePublished" datetime="2020-01-30T22:50:13+08:00">2020-01-30</time>
+              <time title="创建时间：2020-01-30 22:50:13" itemprop="dateCreated datePublished" datetime="2020-01-30T22:50:13+08:00">2020-01-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-19 11:02:30" itemprop="dateModified" datetime="2020-07-19T11:02:30+08:00">2020-07-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -243,17 +249,17 @@
 
       
         <ul>
-<li><a href="#1-%e7%9b%ae%e5%bd%95">1 目录</a></li>
-<li><a href="#2-%e5%9f%ba%e6%9c%ac%e7%ae%97%e6%b3%95">2 基本算法</a></li>
-<li><a href="#3-%e6%95%b0%e6%8d%ae%e5%88%92%e5%88%86">3 数据划分</a></li>
-<li><a href="#4-%e4%bf%a1%e6%81%af%e5%a2%9e%e7%9b%8a">4 信息增益</a><ul>
-<li><a href="#41-%e4%bf%a1%e6%81%af%e7%86%b5">4.1 信息熵</a></li>
+<li><a href="#1-目录">1 目录</a></li>
+<li><a href="#2-基本算法">2 基本算法</a></li>
+<li><a href="#3-数据划分">3 数据划分</a></li>
+<li><a href="#4-信息增益">4 信息增益</a><ul>
+<li><a href="#41-信息熵">4.1 信息熵</a></li>
 </ul>
 </li>
-<li><a href="#5-python-%e4%bb%a3%e7%a0%81">5 Python 代码</a></li>
-<li><a href="#6-%e5%8f%82%e8%80%83%e4%b9%a6%e7%9b%ae">6 参考书目</a></li>
+<li><a href="#5-python-代码">5 Python 代码</a></li>
+<li><a href="#6-参考书目">6 参考书目</a></li>
 </ul>
-<p><strong>平台</strong>：windows10 64 位<br><strong>IDE</strong>：Pycharm<br><strong>Python 版本</strong>：Python 3.5<br><strong>github 代码</strong>：<a href="https://github.com/zhouhua852/machine-learning/tree/master/practice" target="_blank" rel="noopener">源代码 my_DecisionTree.py</a></p>
+<p><strong>平台</strong>：windows10 64 位<br><strong>IDE</strong>：Pycharm<br><strong>Python 版本</strong>：Python 3.5<br><strong>github 代码</strong>：<a href="https://github.com/chouzz/machine-learning/tree/master/practice" target="_blank" rel="noopener">源代码 my_DecisionTree.py</a></p>
 <hr>
 <h2 id="1-目录"><a href="#1-目录" class="headerlink" title="1 目录"></a>1 目录</h2><p><strong>决策树(decision tree)</strong>是一种常见的机器学习方法，其实在生活中我们已经用到了决策树相关的知识，比如说，女生相亲时的想法就是决策树的一种体现：</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDE5NTQzMDI2Mz93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png" alt="决策树"></p>

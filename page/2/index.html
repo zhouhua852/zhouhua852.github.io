@@ -370,10 +370,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-01-30 23:17:53 / 修改时间：23:20:14" itemprop="dateCreated datePublished" datetime="2020-01-30T23:17:53+08:00">2020-01-30</time>
+              <time title="创建时间：2020-01-30 23:17:53" itemprop="dateCreated datePublished" datetime="2020-01-30T23:17:53+08:00">2020-01-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-19 11:01:28" itemprop="dateModified" datetime="2020-07-19T11:01:28+08:00">2020-07-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -397,30 +403,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p><strong>平台</strong>：windows10 64位<br><strong>IDE</strong>：Pycharm<br><strong>Python版本</strong>：Python3.5<br><strong>github代码</strong>：<a href="https://github.com/zhouhua852/machine-learning/tree/master/my_lineRegression" target="_blank" rel="noopener">源代码</a></p>
+          <p><strong>平台</strong>：windows10 64位<br><strong>IDE</strong>：Pycharm<br><strong>Python版本</strong>：Python3.5<br><strong>github代码</strong>：<a href="https://github.com/chouzz/machine-learning/tree/master/my_lineRegression" target="_blank" rel="noopener">源代码</a></p>
 <hr>
 <h1 id="1-目录"><a href="#1-目录" class="headerlink" title="1 目录"></a>1 目录</h1><ul>
-<li><a href="#1-%e7%9b%ae%e5%bd%95">1 目录</a></li>
-<li><a href="#2-%e5%9b%9e%e5%bd%92%e7%9a%84%e7%90%86%e8%a7%a3">2 回归的理解</a></li>
-<li><a href="#3-%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92">3 线性回归</a></li>
-<li><a href="#4-%e4%bd%bf%e7%94%a8%e6%9c%80%e5%a4%a7%e4%bc%bc%e7%84%b6%e8%a7%a3%e9%87%8a%e6%9c%80%e5%b0%8f%e4%ba%8c%e4%b9%98">4 使用最大似然解释最小二乘</a><ul>
-<li><a href="#41-%e5%9f%ba%e6%9c%ac%e5%bd%a2%e5%bc%8f">4.1 基本形式</a></li>
-<li><a href="#42-%e9%ab%98%e6%96%af%e7%9a%84%e5%af%b9%e6%95%b0%e4%bc%bc%e7%84%b6%e4%b8%8e%e6%9c%80%e5%b0%8f%e4%ba%8c%e4%b9%98">4.2 高斯的对数似然与最小二乘</a></li>
-<li><a href="#43-%e5%90%91%e9%87%8f%e8%a1%a8%e7%a4%ba%e4%b8%8b%e7%9a%84%e6%b1%82%e8%a7%a3">4.3 向量表示下的求解</a></li>
-<li><a href="#44-l2%e6%ad%a3%e5%88%99%e5%8c%96mathsemanticsmrowmi-mathvariant%22normal%22%e2%84%93mimn2mnmo%e2%88%92mominmimiomimirmimimmimrowannotation-encoding%22applicationx-tex%22ell2-normannotationsemanticsmath%e2%84%932%e2%88%92norm">4.4 L2正则化($\ell2-norm$)</a></li>
-<li><a href="#45-l1%e6%ad%a3%e5%88%99%e5%8c%96mathsemanticsmrowmi-mathvariant%22normal%22%e2%84%93mimn1mnmo%e2%88%92mominmimiomimirmimimmimrowannotation-encoding%22applicationx-tex%22ell1-normannotationsemanticsmath%e2%84%931%e2%88%92norm">4.5 L1正则化($\ell1-norm$)</a></li>
+<li><a href="#1-目录">1 目录</a></li>
+<li><a href="#2-回归的理解">2 回归的理解</a></li>
+<li><a href="#3-线性回归">3 线性回归</a></li>
+<li><a href="#4-使用最大似然解释最小二乘">4 使用最大似然解释最小二乘</a><ul>
+<li><a href="#41-基本形式">4.1 基本形式</a></li>
+<li><a href="#42-高斯的对数似然与最小二乘">4.2 高斯的对数似然与最小二乘</a></li>
+<li><a href="#43-向量表示下的求解">4.3 向量表示下的求解</a></li>
+<li><a href="#44-l2正则化math-xmlnshttpwwww3org1998mathmathmlsemanticsmrowmi-mathvariantnormalℓmimn2mnmomominmimiomimirmimimmimrowannotation-encodingapplicationx-texell2-normannotationsemanticsmathℓ2norm">4.4 L2正则化($\ell2-norm$)</a></li>
+<li><a href="#45-l1正则化math-xmlnshttpwwww3org1998mathmathmlsemanticsmrowmi-mathvariantnormalℓmimn1mnmomominmimiomimirmimimmimrowannotation-encodingapplicationx-texell1-normannotationsemanticsmathℓ1norm">4.5 L1正则化($\ell1-norm$)</a></li>
 <li><a href="#46-lastic-net">4.6 lastic Net</a></li>
-<li><a href="#47-l1%e5%92%8cl2%e6%ad%a3%e5%88%99%e7%9a%84%e5%8c%ba%e5%88%ab">4.7 L1和L2正则的区别</a></li>
+<li><a href="#47-l1和l2正则的区别">4.7 L1和L2正则的区别</a></li>
 </ul>
 </li>
-<li><a href="#5-%e6%a2%af%e5%ba%a6%e4%b8%8b%e9%99%8d%e6%b3%95">5 梯度下降法</a></li>
-<li><a href="#6-%e7%a8%8b%e5%ba%8f%e5%88%86%e6%9e%90">6 程序分析</a></li>
-<li><a href="#7-%e5%88%86%e6%9e%90sklearn%e7%ba%bf%e6%80%a7%e5%9b%9e%e5%bd%92%e7%9a%84%e5%ae%98%e6%96%b9%e4%be%8b%e7%a8%8b">7 分析sklearn线性回归的官方例程</a><ul>
-<li><a href="#71-%e5%ae%98%e6%96%b9%e4%be%8b%e7%a8%8b%e5%88%86%e6%9e%90">7.1 官方例程分析</a></li>
-<li><a href="#72-%e4%bd%bf%e7%94%a8sklearn%e6%96%b9%e6%b3%95%e8%ae%ad%e7%bb%83%e8%87%aa%e5%b7%b1%e7%94%9f%e6%88%90%e7%9a%84%e6%95%b0%e6%8d%ae">7.2 使用sklearn方法训练自己生成的数据</a></li>
+<li><a href="#5-梯度下降法">5 梯度下降法</a></li>
+<li><a href="#6-程序分析">6 程序分析</a></li>
+<li><a href="#7-分析sklearn线性回归的官方例程">7 分析sklearn线性回归的官方例程</a><ul>
+<li><a href="#71-官方例程分析">7.1 官方例程分析</a></li>
+<li><a href="#72-使用sklearn方法训练自己生成的数据">7.2 使用sklearn方法训练自己生成的数据</a></li>
 </ul>
 </li>
-<li><a href="#8-%e5%8f%82%e8%80%83%e4%b9%a6%e7%9b%ae">8 参考书目</a></li>
+<li><a href="#8-参考书目">8 参考书目</a></li>
 </ul>
 <h1 id="2-回归的理解"><a href="#2-回归的理解" class="headerlink" title="2 回归的理解"></a>2 回归的理解</h1><p>回归是由高尔顿最先在生物遗传上提出的，在线性回归中，与其说其为回归，不如说线性拟合更合适，而为了纪念高尔顿还是保留了回归这一名词<br>而<strong>对数几率回归（Logistic regression）</strong>解决的却是一个<strong>分类</strong>问题，其实就是2分类，如果需要解决多分类那么就做多次2分类或直接用<strong>Softmax回归</strong>。</p>
 <h1 id="3-线性回归"><a href="#3-线性回归" class="headerlink" title="3 线性回归"></a>3 线性回归</h1><p>线性回归试图建立的一个线性模型以尽可能准确的预测输出标记。考虑最简单的模型，给定若干对$(x,y)$的数据，将其在坐标轴上表示如下：</p>
@@ -517,10 +523,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-01-30 22:50:13 / 修改时间：23:09:46" itemprop="dateCreated datePublished" datetime="2020-01-30T22:50:13+08:00">2020-01-30</time>
+              <time title="创建时间：2020-01-30 22:50:13" itemprop="dateCreated datePublished" datetime="2020-01-30T22:50:13+08:00">2020-01-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-07-19 11:02:30" itemprop="dateModified" datetime="2020-07-19T11:02:30+08:00">2020-07-19</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -545,17 +557,17 @@
 
       
           <ul>
-<li><a href="#1-%e7%9b%ae%e5%bd%95">1 目录</a></li>
-<li><a href="#2-%e5%9f%ba%e6%9c%ac%e7%ae%97%e6%b3%95">2 基本算法</a></li>
-<li><a href="#3-%e6%95%b0%e6%8d%ae%e5%88%92%e5%88%86">3 数据划分</a></li>
-<li><a href="#4-%e4%bf%a1%e6%81%af%e5%a2%9e%e7%9b%8a">4 信息增益</a><ul>
-<li><a href="#41-%e4%bf%a1%e6%81%af%e7%86%b5">4.1 信息熵</a></li>
+<li><a href="#1-目录">1 目录</a></li>
+<li><a href="#2-基本算法">2 基本算法</a></li>
+<li><a href="#3-数据划分">3 数据划分</a></li>
+<li><a href="#4-信息增益">4 信息增益</a><ul>
+<li><a href="#41-信息熵">4.1 信息熵</a></li>
 </ul>
 </li>
-<li><a href="#5-python-%e4%bb%a3%e7%a0%81">5 Python 代码</a></li>
-<li><a href="#6-%e5%8f%82%e8%80%83%e4%b9%a6%e7%9b%ae">6 参考书目</a></li>
+<li><a href="#5-python-代码">5 Python 代码</a></li>
+<li><a href="#6-参考书目">6 参考书目</a></li>
 </ul>
-<p><strong>平台</strong>：windows10 64 位<br><strong>IDE</strong>：Pycharm<br><strong>Python 版本</strong>：Python 3.5<br><strong>github 代码</strong>：<a href="https://github.com/zhouhua852/machine-learning/tree/master/practice" target="_blank" rel="noopener">源代码 my_DecisionTree.py</a></p>
+<p><strong>平台</strong>：windows10 64 位<br><strong>IDE</strong>：Pycharm<br><strong>Python 版本</strong>：Python 3.5<br><strong>github 代码</strong>：<a href="https://github.com/chouzz/machine-learning/tree/master/practice" target="_blank" rel="noopener">源代码 my_DecisionTree.py</a></p>
 <hr>
 <h2 id="1-目录"><a href="#1-目录" class="headerlink" title="1 目录"></a>1 目录</h2><p><strong>决策树(decision tree)</strong>是一种常见的机器学习方法，其实在生活中我们已经用到了决策树相关的知识，比如说，女生相亲时的想法就是决策树的一种体现：</p>
 <p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pbWctYmxvZy5jc2RuLm5ldC8yMDE4MDMxNDE5NTQzMDI2Mz93YXRlcm1hcmsvMi90ZXh0L0x5OWliRzluTG1OelpHNHVibVYwTDNGeE9UQTBNekExTVRVNS9mb250LzVhNkw1TDJUL2ZvbnRzaXplLzQwMC9maWxsL0kwSkJRa0ZDTUE9PS9kaXNzb2x2ZS83MA?x-oss-process=image/format,png" alt="决策树"></p>
