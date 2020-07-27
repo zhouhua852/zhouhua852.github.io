@@ -139,17 +139,17 @@
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">17</span></a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档<span class="badge">18</span></a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">20</span></a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签<span class="badge">21</span></a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">6</span></a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类<span class="badge">7</span></a>
 
   </li>
         <li class="menu-item menu-item-about">
@@ -180,6 +180,90 @@
             
 
   <div class="posts-expand">
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://chouzz.ml/2020/01/30/Leetcode32-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/myavatar.jpg">
+      <meta itemprop="name" content="Chouzz">
+      <meta itemprop="description" content="你只需努力，剩下的交给时间">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Chouzz的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/01/30/Leetcode32-%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E6%9C%89%E5%BA%8F%E9%93%BE%E8%A1%A8/" class="post-title-link" itemprop="url">Leetcode32 合并两个有序链表</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-01-30 23:26:48 / 修改时间：23:30:08" itemprop="dateCreated datePublished" datetime="2020-01-30T23:26:48+08:00">2020-01-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构与算法</span>
+                  </a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>将两个有序链表合并为一个新的有序链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。<br>示例：</p>
+<blockquote>
+<p>输入：1-&gt;2-&gt;4, 1-&gt;3-&gt;4<br>输出：1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4</p>
+</blockquote>
+<p>我的思路，这个题目要是不是可以用最简单的方式解决呢？假设两个链表的长度相等。那么遍历链表l1,然后依次让l2插入到l1后面。<br>但是之后发现，题目中有可能是长度不一样的，那么我就更改为如果l2比l1长，那么就从l1插入到l2，反之亦然。但是例子中又有l1或l2为空的情况，我又设置为l1为空就返回l2,反之亦然。<br>但是我在这里卡住了。</p>
+<blockquote>
+<p>输入<br>[5]<br>[1,2,4]<br>输出<br>[1,5,2,4]<br>预期结果<br>[1,2,4,5]</p>
+</blockquote>
+<p>这里明显l2比l1长，那么应该讲l1插入到l2中，最终结果应该是1,5,2,4，后面认真审题后发现，题目为讲两个有序链表合并为一个新的有序链表并返回。也就是说，</p>
+<ol>
+<li>输入的两个链表都是有序的，而且输入的链表可能为0；</li>
+<li>输出的链表也是有序的，而且是通过输入链表组合而得到的。<br>重新整理一下思路，首先对边界进行限制，即考虑l1和l2为null的情况，然后将l1中的元素插入到l2中去。</li>
+</ol>
+<p>写了一段时间，不会，直接看答案吧，<br>有2中解法，我使用了迭代的方法，成功了，<strong>唯一需要注意的是最后一个元素需要单独添加。</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">ListNode* <span class="title">mergeTwoLists</span><span class="params">(ListNode* l1, ListNode* l2)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">if</span> (l1==<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> l2;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (l2 == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> l1;</span><br><span class="line">	&#125;</span><br><span class="line">	ListNode* p1 = l1;</span><br><span class="line">	ListNode* p2 = l2;</span><br><span class="line">	ListNode* head = <span class="keyword">new</span> ListNode(<span class="number">0</span>);</span><br><span class="line">	ListNode* p = head;</span><br><span class="line">	<span class="comment">//迭代方法</span></span><br><span class="line">	<span class="keyword">while</span> ( p2!=<span class="literal">NULL</span> &amp;&amp; p1!=<span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (p1-&gt;val &lt; p2-&gt;val)</span><br><span class="line">		&#123;</span><br><span class="line">			p-&gt;next = p1;</span><br><span class="line">			p1 = p1-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">else</span></span><br><span class="line">		&#123;</span><br><span class="line">			p-&gt;next = p2;</span><br><span class="line">			p2 = p2-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line">		p = p-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (p1 == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		p-&gt;next = p2;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (p2 == <span class="literal">NULL</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		p-&gt;next = p1;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> head-&gt;next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
         
   
   
@@ -378,7 +462,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-07-19 11:01:28" itemprop="dateModified" datetime="2020-07-19T11:01:28+08:00">2020-07-19</time>
+                <time title="修改时间：2020-07-19 11:13:27" itemprop="dateModified" datetime="2020-07-19T11:13:27+08:00">2020-07-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -437,7 +521,7 @@
 
 <h1 id="4-使用最大似然解释最小二乘"><a href="#4-使用最大似然解释最小二乘" class="headerlink" title="4 使用最大似然解释最小二乘"></a>4 使用最大似然解释最小二乘</h1><h2 id="4-1-基本形式"><a href="#4-1-基本形式" class="headerlink" title="4.1 基本形式"></a>4.1 基本形式</h2><p>首先对于线性回归，所求得就是一条直线，设其方程为：<br>$$y^{(i)}=\theta^Tx^{(i)}+\varepsilon^{(i)}$$<br>其中$\theta$和$\varepsilon$为这条直线的斜率和截距，$x,y$分别为图上的一系列散点，用极大似然法估计时，我们认为$\varepsilon$符合正太分布，且期望为0，那么根据大学的知识可以得到$\varepsilon$的概率为：<br>$$p(\varepsilon^{(i)})=\frac{1}{s\sqrt{2\pi\sigma}}exp(-\frac{(\varepsilon^{(i)})^2}{2\sigma^2})$$<br>把直线方程移项带入上式得到在$\theta$参数下，已知$x$的情况下$y$的概率密度函数为：<br>$$p(y^{(i)}|x^{(i)};\theta)=\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})$$<br>这里的概率密度函数为条件概率密度函数，直接求解是无法解出来的，假设样本之间是独立的，那么就得到：</p>
 <p>\begin{aligned}<br>L(\theta)&amp;=\coprod_{i=1}^m p(y^{(i)}|x^{(i)};\theta)\&amp;=\coprod_{i=1}^m\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})<br>\end{aligned}</p>
-<h2 id="4-2-高斯的对数似然与最小二乘"><a href="#4-2-高斯的对数似然与最小二乘" class="headerlink" title="4.2 高斯的对数似然与最小二乘"></a>4.2 高斯的对数似然与最小二乘</h2><p>这里用的是对数似然，即需要对$L(\theta)$取对数，则可以化简得到如下方程：<br>\begin{aligned}<br>\ell(\theta)&amp;=\log{L(\theta)}\&amp;=\log{\coprod_{i=1}^m\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})}\&amp;=\sum_{i=1}^m \log{\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})}\&amp;=m\log{\frac{1}{\sqrt{2\pi\sigma}}}-\frac{1}{\sigma^2}\cdot\frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})<br>\end{aligned}<br>现在，需要求$L(\theta)$为最大值时$\theta$的值，前面一项为常数，可以省略掉，只保留后方一项得到函数：<br>$$J(\theta)=\frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})$$<br>即求$J(\theta)$的最小值，括号里的一项就是预测值和实际值之间的差，这个就成为目标函数或成为损失函数，这其实就是最小二乘估计，整个推导过程其实就是利用高斯分布推导最小二乘。</p>
+<h2 id="4-2-高斯的对数似然与最小二乘"><a href="#4-2-高斯的对数似然与最小二乘" class="headerlink" title="4.2 高斯的对数似然与最小二乘"></a>4.2 高斯的对数似然与最小二乘</h2><p>这里用的是对数似然，即需要对$L(\theta)$取对数，则可以化简得到如下方程：<br>\begin{aligned}<br>\ell(\theta)&amp;=\log{L(\theta)}\&amp;=\log{\coprod_{i=1}^m\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})}\&amp;=\sum_{i=1}^m \log{\frac{1}{\sqrt{2\pi\sigma}}exp(-\frac{(y^{(i)}-\theta^Tx^{(i)})^2}{2\sigma^2})}\&amp;=m\log{\frac{1}{\sqrt{2\pi\sigma}}}-\frac{1}{\sigma^2}\cdot\frac{1}{2}\sum_{i=1}^m(y^{(i)}-theta^Tx^{(i)})<br>\end{aligned}<br>现在，需要求$L(\theta)$为最大值时$\theta$的值，前面一项为常数，可以省略掉，只保留后方一项得到函数：<br>$$J(\theta)=\frac{1}{2}\sum_{i=1}^m(y^{(i)}-\theta^Tx^{(i)})$$<br>即求$J(\theta)$的最小值，括号里的一项就是预测值和实际值之间的差，这个就成为目标函数或成为损失函数，这其实就是最小二乘估计，整个推导过程其实就是利用高斯分布推导最小二乘。</p>
 <h2 id="4-3-向量表示下的求解"><a href="#4-3-向量表示下的求解" class="headerlink" title="4.3 向量表示下的求解"></a>4.3 向量表示下的求解</h2><p>设有$M$个$N$维样本组成矩阵$X$，即$X$的行对应每个样本，$X$的列对应样本的维度，<strong>目标函数</strong>就可以表示为：<br>$$J(\theta)=\frac{1}{2}\sum_{i=1}^m (h_\theta(x^{(i)})-y^{(i)})^2=\frac{1}{2}(X\theta-y)^T(X\theta-y)$$<br>即现在要求出$J(\theta)$最小值时$\theta$的值，对目标函数求导，令其等于$0$，求出$\theta$的值。</p>
 <p>\begin{aligned}<br>\nabla_\theta J(\theta) &amp;= \frac{1}{2}\sum_{i=1}^m(h_\theta x^{(i)}-y^{(i)})^2\&amp;=\nabla_\theta \left{ \frac{1}{2} (\theta^TX^TX\theta-]theta^TX^Ty-y^TX\theta+h^Ty)\right}\&amp;=\frac{1}{2}(2X^TX\theta-X^Ty-(y^TX)^T)\&amp;=X^TX\theta-x^Ty<br>\end{aligned}<br>得到最后的结果如下：<br>$$\theta=(X^TX)^{-1}X^Ty$$</p>
 <h2 id="4-4-L2正则化-ell2-norm"><a href="#4-4-L2正则化-ell2-norm" class="headerlink" title="4.4 L2正则化($\ell2-norm$)"></a>4.4 L2正则化($\ell2-norm$)</h2><p>而在现实中当特征比样本点更多时，矩阵$X$不是满秩矩阵， $X^TX$不一定可逆，通常引入<strong>正则化(egularization)</strong>项，其实质是为了<strong>防止过拟合</strong>,<br>$$ \frac{1}{2}\sum_{i=1}^m(h_\theta x^{(i)}-y^{(i)})^2+\lambda\sum_{j=1}^n\theta_j ^2$$<br>称为<strong>$L2$正则($\ell2-norm$)</strong>，那么加了$L2$正则的最小二乘称为<strong>岭回归</strong>，求解可得$\theta$为：<br>$$\theta=(X^TX+\lambda I)^{-1}X^Ty$$</p>
@@ -1157,20 +1241,20 @@ Fig.7 ResNet 在 ImageNet 上的具体网络架构
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">18</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
